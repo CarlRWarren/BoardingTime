@@ -9,3 +9,9 @@ exports.login = (req, res) => {
         title: "Login Page"
     });
 }
+
+exports.signup = (req, res) => {
+    res.render('signup', {
+        title: "Signup Page"
+    });
+}
