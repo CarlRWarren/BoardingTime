@@ -1,7 +1,12 @@
-.loginF{
-    margin: 0px auto;
+html{
+    background: #435058;
 }
-
-.signupF{
-   text-align: center;
+.loginDiv{
+    text-align: center;
+}
+.loginF{
+    display: inline-block;
+}
+form{
+    display: inline-block;
 }
