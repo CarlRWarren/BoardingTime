@@ -1,0 +1,12 @@
+html{
+    background: #435058;
+}
+.loginDiv{
+    text-align: center;
+}
+.loginF{
+    display: inline-block;
+}
+form{
+    display: inline-block;
+}
