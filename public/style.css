@@ -10,3 +10,7 @@ html{
 form{
     display: inline-block;
 }
+#message{
+    background: #feeafa;
+    border: 1px solid #9b1d20;
+}
