@@ -1,26 +1,27 @@
-doctype html
-html
-  head
-    title Sign Up
-  body
-    div(class = 'signupF', align='center')
+extends layout
+
+block content
+  div(class = 'signupF')
+    div(class='one')
       h3 Infomation Entry
-        form(id='form', method='post', action='/')
-            label First Name:
-            br
-            input(type='text', name='firstName')
-            br
-            label Last Name:
-            br
-            input(type='text', name='lastName')
-            br
-            label Username:
-            br
-            input(type='text', name='username')
-            br
-            label Password:
-            br
-            input(type='password', name='pass')
-            br
-            br
-            input(type='submit', value='submit')
+      form(id='form', method='post', action='/')
+        label First Name:
+        br
+        input(type='text', name='firstName')
+        br
+        label Last Name:
+        br
+        input(type='text', name='lastName')
+        br
+        label Username:
+        br
+        input(type='text', name='username')
+        br
+        label Password:
+        br
+        input(type='password', name='pass')
+        br
+        br
+        input(type='submit', value='submit') 
+    div(class='two') 
+      img(id='avatar',src='https://api.adorable.io/avatars/face/eyes1/nose2/mouth4/DEADBF/300')
