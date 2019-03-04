@@ -3,11 +3,9 @@ html{
 }
 .loginDiv{
     text-align: center;
+    border: 1px solid #9b1d20;
 }
 .loginF{
-    display: inline-block;
-}
-form{
     display: inline-block;
 }
 #message{
