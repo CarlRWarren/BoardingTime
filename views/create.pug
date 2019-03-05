@@ -1,0 +1,18 @@
+extends layout2
+
+block content
+    form(id="form", method="post", action="/create")
+        label Name:
+        input(type="text", name="name")
+        br
+        label Age:
+        input(type="text", name="age")
+        br
+        label Species:
+        select(name="species")
+            option(value="Human") Human
+            option(value="Vampire") Vampire
+            option(value="Werewolf") Werewolf
+            option(value="Zombie") Zombie
+        br
+        input(type="submit", value="Add person")
