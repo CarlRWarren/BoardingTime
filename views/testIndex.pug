@@ -1,21 +1,27 @@
-extends layout2
+extends testLayout
 
 block content
     table(class="gridtable")
         tr
             th ID
-            th Name
+            th User Name
+            th Avatar Url
+            th Password
+            th Role
+            th Email
             th Age
-            th Species
             th
             th
-        each item in people
+        each item in users
             tr
                 td 
                     a(href="/details/" + item.id) #{item.id}
-                td #{item.name}
+                td #{item.userName}
+                td #{item.avaterUrl}
+                td #{item.password}
+                td #{item.role}
+                td #{item.email}
                 td #{item.age}
-                td #{item.species}
                 td
                     a(href="/edit/" + item.id) Edit
                 td 

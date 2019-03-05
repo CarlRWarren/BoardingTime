@@ -1,18 +1,26 @@
-extends layout2
-
+extends testLayout
 block content
     table(class="gridtable")
         tr
             th ID
-            td=person.id
+            td=user.id
         tr
-            th Name
-            td=person.name
+        	th User Name:
+        	td=user.userName
         tr
-            th Age
-            td=person.age
+        	th Avatar Url:
+        	td=user.avaterUrl
         tr
-            th Species
-            td=person.species
+        	th Password:
+        	td=user.password
+        tr
+        	th Role:
+        	td=user.role
+        tr
+        	th Email:
+        	td=user.email
+        tr
+        	th Age:
+        	td=user.age
     form(id="form", method="get", action="/")
         input(type="submit", value="Back to list")

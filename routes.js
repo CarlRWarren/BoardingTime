@@ -31,9 +31,9 @@ var Message = mongoose.model("Message_Collection", messageSchema);
 exports.index = function(req, res) {
   User.find(function(err, user) {
     if (err) return console.error(err);
-    res.render("index2", {
-      title: ""
-      //users: user
+    res.render("testIndex", {
+      title: "",
+      users: user
     });
   });
 };
@@ -114,11 +114,11 @@ exports.details = function(req, res) {
   });
 };
 
-exports.index = (req, res) => {
-  res.render("index", {
-    title: "Home Page"
-  });
-};
+// exports.index = (req, res) => {
+//   res.render("index", {
+//     title: "Home Page"
+//   });
+// };
 
 exports.login = (req, res) => {
     res.render('login', {

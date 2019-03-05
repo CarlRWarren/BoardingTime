@@ -1,19 +1,23 @@
-extends layout2
+extends testLayout
 
 block content
     form(id="form", method="post", action="/edit/"+person.id)
-        label Name:
-        input(type="text", name="name", value=person.name)
+        label User Name:
+        input(type="text", name="userName")
+        br
+        label Avatar Url:
+        input(type="text", name="avaterUrl")
+        br
+        label Password:
+        input(type="text", name="password")
+        br
+        label Role:
+        input(type="text", name="role")
+        br
+        label Email:
+        input(type="text", name="email")
         br
         label Age:
-        input(type="text", name="age", value=person.age)
-        br
-        label Species:
-        select(name="species")
-            option(selected=person.species) #{person.species}
-            option(value="Human") Human
-            option(value="Vampire") Vampire
-            option(value="Werewolf") Werewolf
-            option(value="Zombie") Zombie
+        input(type="text", name="age")
         br
         input(type="submit", value="Edit person")
