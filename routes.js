@@ -121,7 +121,13 @@ exports.index = (req, res) => {
 };
 
 exports.login = (req, res) => {
-  res.render("login", {
-    title: "Login Page"
-  });
-};
+    res.render('login', {
+        title: "Login Page"
+    });
+}
+
+exports.signup = (req, res) => {
+    res.render('signup', {
+        title: "Signup Page"
+    });
+}

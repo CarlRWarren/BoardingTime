@@ -4,9 +4,24 @@ html{
 .loginDiv{
     text-align: center;
 }
+
 .loginF{
     display: inline-block;
 }
-form{
-    display: inline-block;
+.signupF{
+    text-align: center;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 10px;
+    grid-auto-rows: minmax(100px, auto);
 }
+
+.one {
+    grid-column: 1 / 3;
+    grid-row: 1;
+  }
+  
+  .two { 
+    grid-column: 2 / 4;
+    grid-row: 1 / 3;
+  }

@@ -1,17 +1,14 @@
-doctype html
-html
-  head
-    title Authentication
-  body
-    div(class="loginDiv", align="center")
-      h3 Name Entry
-      form(id='form', method='post', action='/', class="loginF")
-        label Username:
-        br
-        input(type='text', name='username')
-        br
-        label Password:
-        br
-        input(type='password', name='pass')
-        br
-        input(type='submit', value='submit')
+extends layout
+block content
+  div(class="loginDiv")
+    h3 Name Entry
+    form(id='form', method='post', action='/', class="loginF")
+      label Username:
+      br
+      input(type='text', name='username')
+      br
+      label Password:
+      br
+      input(type='password', name='pass')
+      br
+      input(type='submit', value='submit')
