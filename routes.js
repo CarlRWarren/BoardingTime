@@ -28,23 +28,19 @@ var messageSchema = mongoose.Schema({
 var User = mongoose.model("User_Collection", userSchema);
 var Message = mongoose.model("Message_Collection", messageSchema);
 
-exports.index = function(req, res) {
-  User.find(function(err, user) {
-    if (err) return console.error(err);
-    res.render("testIndex", {
-      title: "",
-      users: user
+exports.index = (req, res) => {
+    res.render("index", {
+      title: "Home Page"
     });
-  });
 };
 
-exports.create = function(req, res) {
+exports.create = (req, res) => {
   res.render("create", {
     title: ""
   });
 };
 
-exports.createUser = function(req, res) {
+exports.createUser = (req, res) => {
   bcrypt.hash(req.body.password, null, null, (err, hash) => {
     if (err) return console.error(err);
 
@@ -57,7 +53,7 @@ exports.createUser = function(req, res) {
       age: req.body.age
     });
 
-    user.save(function(err, user) {
+    user.save((err, user) => {
       if (err) return console.error(err);
       console.log(user.userName + " added");
     });
@@ -65,8 +61,8 @@ exports.createUser = function(req, res) {
   res.redirect("/");
 };
 
-exports.edit = function(req, res) {
-  User.findById(req.params.id, function(err, user) {
+exports.edit = (req, res) => {
+  User.findById(req.params.id, (err, user) => {
     if (err) return console.error(err);
 
     res.render("edit", {
@@ -76,8 +72,8 @@ exports.edit = function(req, res) {
   });
 };
 
-exports.editUser = function(req, res) {
-  User.findById(req.params.id, function(err, user) {
+exports.editUser = (req, res) => {
+  User.findById(req.params.id, (err, user) => {
     if (err) return console.error(err);
     user.userName = req.body.userName;
     user.avaterUrl = req.body.avaterUrl;
@@ -86,7 +82,7 @@ exports.editUser = function(req, res) {
     user.email = req.body.email;
     user.age = req.body.age;
 
-    user.save(function(err, user) {
+    user.save((err, user) => {
       if (err) return console.error(err);
       console.log(user.name + " edited");
     });
@@ -95,8 +91,8 @@ exports.editUser = function(req, res) {
   });
 };
 
-exports.delete = function(req, res) {
-  User.findByIdAndDelete(req.params.id, function(err, user) {
+exports.delete = (req, res) => {
+  User.findByIdAndDelete(req.params.id, (err, user) => {
     if (err) return console.error(err);
     console.log(user.name + " deleted");
 
@@ -104,8 +100,8 @@ exports.delete = function(req, res) {
   });
 };
 
-exports.details = function(req, res) {
-  User.findById(req.params.id, function(err, user) {
+exports.details = (req, res) => {
+  User.findById(req.params.id, (err, user)=> {
     if (err) return console.error(err);
     res.render("details", {
       title: "Person Details",

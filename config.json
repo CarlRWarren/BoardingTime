@@ -1,0 +1,20 @@
+{
+    "notLoggedInMenu":[
+        ["Home","/"],
+        ["Login","/login"],
+        ["Signup","/signup"]
+    ],
+
+    "nonAdminMenu":[
+        ["Home","/"],
+        ["Edit","/edit"],
+        ["Log out","/logout"]
+    ],
+
+    "adminMenu":[
+        ["Home","/"],
+        ["Edit","/edit"],
+        ["Admin","/admin"],
+        ["Log out","/logout"]
+    ]
+}
