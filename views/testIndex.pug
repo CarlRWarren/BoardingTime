@@ -16,12 +16,7 @@ block content
             tr
                 td 
                     a(href="/details/" + item.id) #{item.id}
-                td #{item.userName}
-                td #{item.avaterUrl}
-                td #{item.password}
-                td #{item.role}
-                td #{item.email}
-                td #{item.age}
+                include head.pug
                 td
                     a(href="/edit/" + item.id) Edit
                 td 
