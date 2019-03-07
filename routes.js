@@ -29,9 +29,9 @@ var User = mongoose.model("User_Collection", userSchema);
 var Message = mongoose.model("Message_Collection", messageSchema);
 
 exports.index = (req, res) => {
-    res.render("index", {
-      title: "Home Page"
-    });
+  res.render("index", {
+    title: "Home Page"
+  });
 };
 
 exports.create = (req, res) => {
@@ -75,19 +75,27 @@ exports.edit = (req, res) => {
 exports.editUser = (req, res) => {
   User.findById(req.params.id, (err, user) => {
     if (err) return console.error(err);
+
     user.userName = req.body.userName;
     user.avaterUrl = req.body.avaterUrl;
-    user.password = hash;
     user.role = req.body.role;
     user.email = req.body.email;
     user.age = req.body.age;
 
-    user.save((err, user) => {
-      if (err) return console.error(err);
-      console.log(user.name + " edited");
-    });
+    if (req.body.password !== "") {
+      bcrypt.hash(req.body.password, null, null, (err, hash) => {
+        if (err) return console.error(err);
 
-    res.redirect("/");
+        user.password = hash;
+
+        user.save((err, user) => {
+          if (err) return console.error(err);
+          console.log(user.name + " edited");
+          res.redirect("/");
+        });
+      });
+    }
+
   });
 };
 
@@ -101,7 +109,7 @@ exports.delete = (req, res) => {
 };
 
 exports.details = (req, res) => {
-  User.findById(req.params.id, (err, user)=> {
+  User.findById(req.params.id, (err, user) => {
     if (err) return console.error(err);
     res.render("details", {
       title: "Person Details",
@@ -110,20 +118,14 @@ exports.details = (req, res) => {
   });
 };
 
-// exports.index = (req, res) => {
-//   res.render("index", {
-//     title: "Home Page"
-//   });
-// };
-
 exports.login = (req, res) => {
-    res.render('login', {
-        title: "Login Page"
-    });
-}
+  res.render("login", {
+    title: "Login Page"
+  });
+};
 
 exports.signup = (req, res) => {
-    res.render('signup', {
-        title: "Signup Page"
-    });
-}
+  res.render("signup", {
+    title: "Signup Page"
+  });
+};
