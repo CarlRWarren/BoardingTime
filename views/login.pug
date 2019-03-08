@@ -2,7 +2,8 @@ extends layout
 block content
   div(class="loginDiv")
     h3 Name Entry
-    form(id='form', method='post', action='/', class="loginF")
+    h4(class="warning")
+    form(id='form', method='post', action='/login', class="loginF")
       label Username:
       br
       input(type='text', name='username')

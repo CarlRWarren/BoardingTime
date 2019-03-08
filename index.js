@@ -3,12 +3,34 @@ var pug = require('pug');
 var path = require('path');
 var routes = require('./routes');
 var bodyParser = require('body-parser');
+var expressSession = require('express-session');
 
 var app = express();
+
+const checkAuth = (req, res, next) => {
+  if(req.session.user && req.session.user.isAuthenticated){
+    next();
+  }else{
+    res.redirect('/');
+  }
+}
+const checkAdmin = (req, res, next) => {
+  if(req.session.user && req.session.user.isAuthenticated && req.session.user.isAdmin){
+    next();
+  }else{
+    res.redirect('/');
+  }
+}
 
 app.set('view engine', 'pug');
 app.set('views', __dirname+'/views');
 app.use(express.static(path.join(__dirname+'/public')));
+
+app.use(expressSession({
+  secret: 'Whatever54321',
+  saveUninitialized: true,
+  resave: true
+}));
 
 var urlencodedParser = bodyParser.urlencoded({
     extended: true
@@ -16,7 +38,12 @@ var urlencodedParser = bodyParser.urlencoded({
 
 app.get('/', routes.index);
 app.get('/login', routes.login);
+app.post('/login', urlencodedParser, routes.loginUser);
+
 app.get('/signup', routes.signup);
+app.get('/logout', routes.logout);
+
+app.get('/admin', checkAdmin, routes.admin);
 
 app.get('/create', routes.create);
 app.post('/create', urlencodedParser, routes.createUser)

@@ -23,5 +23,24 @@ block content
         br
         br
         input(type='submit', value='submit') 
-    div(class='two') 
-      img(id='avatar',src='https://api.adorable.io/avatars/face/eyes1/nose2/mouth4/DEADBF/300')
+    div(class='two')
+      img(id='avatar',src='')
+      div 
+        input(type='image', class='selectors', id='leftArrowButton', src='arrowLeft.png',onclick='avatarEyesUp()')
+        label(class='AvatarText') Eyes
+        input(type='image', class='selectors', id='rightArrowButton', src='arrowRight.png',onclick='avatarEyesDown()')
+      div
+        input(type='image', class='selectors', id='leftArrowButtonNose', src='arrowLeft.png',onclick='avatarNoseUp()')
+        label(class='AvatarText') Nose
+        input(type='image', class='selectors', id='rightArrowButtonNose', src='arrowRight.png',onclick='avatarNoseDown()')
+      div
+        input(type='image', class='selectors', id='leftArrowButtonNose', src='arrowLeft.png',onclick='avatarMouthUp()')
+        label(class='AvatarText') Mouth
+        input(type='image', class='selectors', id='rightArrowButtonNose', src='arrowRight.png',onclick='avatarMouthDown()')
+      div
+        br       
+        label(class='AvatarText') Color
+      div
+        br
+        input(type='color',id='colorPicker',oninput='avatarUpdateColor()',value="#DEADBF")
+  script(src='script.js')
