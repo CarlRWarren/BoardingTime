@@ -9,7 +9,7 @@ mongoose.connect("mongodb://localhost/data", {
 var mdb = mongoose.connection;
 
 mdb.on("error", console.error.bind(console, "connection error"));
-mdb.once("open", function(callback) {});
+mdb.once("open", function (callback) { });
 
 var userSchema = mongoose.Schema({
   userName: String,
@@ -29,9 +29,9 @@ var User = mongoose.model("User_Collection", userSchema);
 var Message = mongoose.model("Message_Collection", messageSchema);
 
 exports.index = (req, res) => {
-    res.render("index", {
-      title: "Home Page"
-    });
+  res.render("index", {
+    title: "Home Page"
+  });
 };
 
 exports.create = (req, res) => {
@@ -101,7 +101,7 @@ exports.delete = (req, res) => {
 };
 
 exports.details = (req, res) => {
-  User.findById(req.params.id, (err, user)=> {
+  User.findById(req.params.id, (err, user) => {
     if (err) return console.error(err);
     res.render("details", {
       title: "Person Details",
@@ -117,13 +117,66 @@ exports.details = (req, res) => {
 // };
 
 exports.login = (req, res) => {
-    res.render('login', {
-        title: "Login Page"
-    });
+  res.render('login', {
+    title: "Login Page"
+  });
+}
+
+exports.loginUser = (req, res) => {
+  User.find((err, user) => {
+    if (err) return console.error(err);
+
+    var curUser = user.find(u => u.userName === req.body.userName);
+
+    if (curUser) {
+      bcrypt.compare(req.body.password, curUser.password, (err, res) => {
+        if (err) return console.error(err);
+
+        if (res) {//if password matches database hash
+          req.session.user = {
+            isAuthenticated: true,
+            username: req.body.username,
+            isAdmin: (curUser.role === "admin")
+          };
+          res.redirect('/');
+        } else {
+          res.render('login', {
+            title: "Login Page",
+            failedMessage: "Password and username do not match.",
+            userName: req.body.userName,
+          });
+        }
+      });
+    } else {
+      res.render('login', {
+        title: "Login Page",
+        failedMessage: "User does not exist",
+        userName: req.body.userName,
+      });
+    }
+
+  });
 }
 
 exports.signup = (req, res) => {
-    res.render('signup', {
-        title: "Signup Page"
-    });
+  res.render('signup', {
+    title: "Signup Page"
+  });
 }
+
+exports.admin = (req, res) => {
+  res.render('admin', {
+    title: "Admin"
+  });
+}
+
+exports.logout = (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.redirect('/');
+    }
+  });
+}
+
