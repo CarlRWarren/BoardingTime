@@ -164,6 +164,12 @@ exports.signup = (req, res) => {
   });
 }
 
+exports.signupUser = (req, res) => {
+  res.render('signup', {
+    title: "Signup Page"
+  });
+}
+
 exports.admin = (req, res) => {
   res.render('admin', {
     title: "Admin"
