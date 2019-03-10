@@ -14,16 +14,19 @@ var mouthList = ["mouth1","mouth10","mouth11","mouth3","mouth5","mouth6","mouth7
 var color = 'DEADBF';
 
 var img = document.getElementById('avatar');
+var hidsrc = document.getElementById('hiddenSrc');
 var colorPicker = document.getElementById('colorPicker');
 
 var Avatar = `https://api.adorable.io/avatars/face/${eyes}/${nose}/${mouth}/${color}/300`;
 img.setAttribute("src", Avatar);
+hidsrc.value = Avatar;
 
 var avatarUpdateColor = () =>{
     color = colorPicker.value;
     color = color.replace('#',"");
     Avatar = `https://api.adorable.io/avatars/face/${eyes}/${nose}/${mouth}/${color}/300`;
     img.setAttribute("src", Avatar);
+    hidsrc.value = Avatar;
 }
 
 var avatarEyesUp = () => {
@@ -35,6 +38,7 @@ var avatarEyesUp = () => {
     console.log(eyes);
     Avatar = `https://api.adorable.io/avatars/face/${eyes}/${nose}/${mouth}/${color}/300`;
     img.setAttribute("src", Avatar);
+    hidsrc.value = Avatar;
 }
 
 var avatarEyesDown = () => {
@@ -45,6 +49,7 @@ var avatarEyesDown = () => {
     eyes = eyesList[eyesCount];
     Avatar = `https://api.adorable.io/avatars/face/${eyes}/${nose}/${mouth}/${color}/300`;
     img.setAttribute("src", Avatar);
+    hidsrc.value = Avatar;
 }
 
 var avatarNoseUp = () => {
@@ -55,6 +60,7 @@ var avatarNoseUp = () => {
     nose = noseList[noseCount];
     Avatar = `https://api.adorable.io/avatars/face/${eyes}/${nose}/${mouth}/${color}/300`;
     img.setAttribute("src", Avatar);
+    hidsrc.value = Avatar;
 }
 
 var avatarNoseDown = () => {
@@ -65,6 +71,7 @@ var avatarNoseDown = () => {
     nose = noseList[noseCount];
     Avatar = `https://api.adorable.io/avatars/face/${eyes}/${nose}/${mouth}/${color}/300`;
     img.setAttribute("src", Avatar);
+    hidsrc.value = Avatar;
 }
 
 var avatarMouthUp = () => {
@@ -75,6 +82,7 @@ var avatarMouthUp = () => {
     mouth = mouthList[mouthCount];
     Avatar = `https://api.adorable.io/avatars/face/${eyes}/${nose}/${mouth}/${color}/300`;
     img.setAttribute("src", Avatar);
+    hidsrc.value = Avatar;
 }
 
 var avatarMouthDown = () => {
@@ -85,8 +93,9 @@ var avatarMouthDown = () => {
     mouth = mouthList[mouthCount];
     Avatar = `https://api.adorable.io/avatars/face/${eyes}/${nose}/${mouth}/${color}/300`;
     img.setAttribute("src", Avatar);
+    hidsrc.value = Avatar;
 }
 
 var setAvatarSrc = (src) => {
-
+    hidsrc.value = Avatar;
 }

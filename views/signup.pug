@@ -13,6 +13,14 @@ block content
         br
         input(type='text', name='lastName')
         br
+        label Email:
+        br
+        input(type='text', name='email')
+        br
+        label Age:
+        br
+        input(type='text', name='age')
+        br
         label Username:
         br
         input(type='text', name='username')
@@ -25,7 +33,7 @@ block content
         input(type='submit', value='submit') 
       div(class='two')
         img(id='avatar',src='')
-        input(type='text', class="hidden", id="")
+        input(type='text', class="hidden", id="hiddenSrc")
         div 
           img(class='selectors', id='leftArrowButton', src='arrowLeft.png',onclick='avatarEyesUp()')
           label(class='AvatarText') Eyes
