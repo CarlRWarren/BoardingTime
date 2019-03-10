@@ -86,3 +86,7 @@ var avatarMouthDown = () => {
     Avatar = `https://api.adorable.io/avatars/face/${eyes}/${nose}/${mouth}/${color}/300`;
     img.setAttribute("src", Avatar);
 }
+
+var setAvatarSrc = (src) => {
+
+}

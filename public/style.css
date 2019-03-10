@@ -29,12 +29,16 @@ html{
 
 
   .selectors{
-      width: 30px;
-      height: 30px;
+      width: auto;
+      height: 1em;
   }
 
   .AvatarText{
       color: white;
       height: 30px;
       width: 30px;
+  }
+
+  .hidden {
+    display: none;
   }

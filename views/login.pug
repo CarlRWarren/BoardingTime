@@ -2,7 +2,7 @@ extends layout
 block content
   div(class="loginDiv")
     h3 Name Entry
-    h4(class="warning")
+    h4(class="warning")=failedMessage
     form(id='form', method='post', action='/login', class="loginF")
       label Username:
       br
