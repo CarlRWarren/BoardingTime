@@ -41,6 +41,7 @@ app.get('/login', routes.login);
 app.post('/login', urlencodedParser, routes.loginUser);
 
 app.get('/signup', routes.signup);
+app.post('/signup', urlencodedParser, routes.signupUser);
 app.get('/logout', routes.logout);
 
 app.get('/admin', checkAdmin, routes.admin);
