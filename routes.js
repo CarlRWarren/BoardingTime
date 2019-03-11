@@ -89,7 +89,7 @@ exports.edit = (req, res) => {
   User.findById(req.params.id, (dbErr, user) => {
     if (dbErr) return console.error(dbErr);
 
-    res.render("edit", {
+    res.render("signupEdit", {
       title: "",
       config,
       state: getStateFromSession(req.session),
@@ -199,6 +199,7 @@ exports.loginUser = (req, res) => {
 
 exports.signup = (req, res) => {
   res.render('signupEdit', {
+    title: "Signup Page",
     config,
     state: getStateFromSession(req.session)
   });
