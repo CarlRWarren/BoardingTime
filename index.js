@@ -8,40 +8,40 @@ var expressSession = require('express-session');
 var app = express();
 
 const checkAuth = (req, res, next) => {
-  if(req.session.user && req.session.user.isAuthenticated){
+  if (req.session.user && req.session.user.isAuthenticated) {
     next();
-  }else{
+  } else {
     res.redirect('/');
   }
 }
 
 const checkAdmin = (req, res, next) => {
-  if(req.session.user && req.session.user.isAuthenticated && req.session.user.isAdmin){
+  if (req.session.user && req.session.user.isAuthenticated && req.session.user.isAdmin) {
     next();
-  }else{
+  } else {
     res.redirect('/');
   }
 }
 
 const checkNotAuth = (req, res, next) => {
-  if(!req.session.user){
+  if (!req.session.user) {
     next();
-  }else{
+  } else {
     res.redirect('/');
   }
 }
 
 const checkAuthNotAdmin = (req, res, next) => {
-  if(req.session.user && req.session.user.isAuthenticated && !req.session.user.isAdmin){
+  if (req.session.user && req.session.user.isAuthenticated && !req.session.user.isAdmin) {
     next();
-  }else{
+  } else {
     res.redirect('/');
   }
 }
 
 app.set('view engine', 'pug');
-app.set('views', __dirname+'/views');
-app.use(express.static(path.join(__dirname+'/public')));
+app.set('views', __dirname + '/views');
+app.use(express.static(path.join(__dirname + '/public')));
 
 app.use(expressSession({
   secret: 'Whatever54321',
@@ -50,13 +50,14 @@ app.use(expressSession({
 }));
 
 var urlencodedParser = bodyParser.urlencoded({
-    extended: true
+  extended: true
 });
 
 app.get('/', routes.index);
 
 app.post('/postmessage', urlencodedParser, checkAuth, routes.postMessage);
 app.get('/deletemessage/:id', urlencodedParser, checkAuth, routes.deleteMessage);
+app.post('/editmessage/:id', urlencodedParser, checkAuth, routes.editMessage);
 
 app.get('/login', checkNotAuth, routes.login);
 app.post('/login', urlencodedParser, checkNotAuth, routes.loginUser);

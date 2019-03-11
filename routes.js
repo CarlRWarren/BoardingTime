@@ -125,7 +125,7 @@ exports.postMessage = (req, res) => {
   var message = new Message({
     username: req.session.user.username,
     message: req.body.message,
-    time: new Date
+    time: new Date()
   });
 
   message.save((err, message) => {
@@ -148,6 +148,25 @@ exports.deleteMessage = (req, res) => {
 
         res.redirect("/");
       });
+    } else {
+      res.redirect("/");
+    }
+  });
+}
+
+exports.editMessage = (req, res) => {
+  Message.findById(req.params.id, (dbErr, message) => {
+    if (dbErr) return console.error(dbErr);
+
+    if (message.username == req.session.user.username || req.session.user.isAdmin) {
+      message.message = req.body.message;
+      message.time = new Date();
+
+      message.save((err, message) => {
+        if (err) return console.error(err);
+        console.log(message.username + " edited " + message.message);
+      });
+      
     } else {
       res.redirect("/");
     }
