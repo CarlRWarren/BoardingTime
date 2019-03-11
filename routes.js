@@ -91,7 +91,7 @@ exports.index = (req, res) => {
         m.avatarurl = user.avatarurl;
       });
 
-      var graphdata = [];
+      var graphData = [];
       users.forEach(u => {
         graphUser = {
           imgUrl: u.avatarurl,
@@ -104,7 +104,7 @@ exports.index = (req, res) => {
           }
         });
 
-        graphdata.push(graphUser);
+        graphData.push(graphUser);
       });
 
       res.render("index", {
@@ -113,7 +113,7 @@ exports.index = (req, res) => {
         config,
         state: getStateFromSession(req.session),
         messages,
-        graphUser,
+        graphData,
         loggedin: (req.session.user != null && req.session.user != undefined)
       });
     });
