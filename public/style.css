@@ -123,3 +123,10 @@ ul{
 body{
     margin: 0;
 }
+
+#canvasDiv {
+    margin: 25px auto;
+    max-width: 55%;
+    min-width: 55%;
+    overflow-x: auto;
+}
