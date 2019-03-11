@@ -56,6 +56,7 @@ var urlencodedParser = bodyParser.urlencoded({
 app.get('/', routes.index);
 
 app.post('/postmessage', urlencodedParser, checkAuth, routes.postMessage);
+app.get('/deletemessage/:id', urlencodedParser, checkAuth, routes.deleteMessage);
 
 app.get('/login', checkNotAuth, routes.login);
 app.post('/login', urlencodedParser, checkNotAuth, routes.loginUser);
