@@ -113,8 +113,6 @@ exports.deleteMessage = (req, res) => {
     if (dbErr) return console.error(dbErr);
 
     if (message.username == req.session.user.username || req.session.user.isAdmin) {
-      res.redirect("/");
-    } else {
       Message.findByIdAndDelete(req.params.id, (err, message) => {
         if (err) return console.error(err);
 
@@ -122,6 +120,8 @@ exports.deleteMessage = (req, res) => {
 
         res.redirect("/");
       });
+    } else {
+      res.redirect("/");
     }
   });
 }
