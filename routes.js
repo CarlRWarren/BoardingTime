@@ -107,6 +107,24 @@ exports.postMessage = (req, res) => {
   res.redirect('/');
 }
 
+exports.deleteMessage = (req, res) => {
+  Message.findById(req.params.id, (dbErr, message) => {
+    if (dbErr) return console.error(dbErr);
+
+    if (message.username == req.session.user.username || req.session.user) {
+      res.redirect("/");
+    } else {
+      Message.findByIdAndDelete(req.params.id, (err, message) => {
+        if (err) return console.error(err);
+
+        console.log(`deleted message: ${message.message}`);
+
+        res.redirect("/");
+      });
+    }
+  });
+}
+
 exports.edit = (req, res) => {
   User.findById(req.session.user.id, (dbErr, user) => {
     if (dbErr) return console.error(dbErr);
@@ -199,7 +217,7 @@ updateUserReferences = (user, oldUsername, onFinished, index = 0) => {
       messages[index].username = user.username;
       messages[index].save((err, message) => {
         if (err) return console.error(err);
-        
+
         if (index >= messages.length) {
           onFinished();
         } else {
