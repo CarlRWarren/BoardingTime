@@ -12,52 +12,65 @@ mdb.on("error", console.error.bind(console, "connection error"));
 mdb.once("open", function (callback) { });
 
 var userSchema = mongoose.Schema({
-  userName: String,
+  username: String,
   email: String,
   age: String,
   password: String,
-  avaterUrl: String,
+  avatarurl: String,
   role: String,
 });
 
 createUserFromReqBody = body => {
   return new User({
-    userName: body.userName,
+    username: body.username,
     email: body.email,
     age: body.age,
-    avaterUrl: body.avaterUrl,
+    avatarurl: body.avatarurl,
     role: body.role || "user",
   });
 }
 
 editUserFromReqBody = (user, body) => {
-    user.userName = body.userName || user.userName;
+    user.username = body.username || user.username;
     user.email = body.email || user.email;
     user.age = body.age || user.age;
-    user.avaterUrl = body.avaterUrl || user.avaterUrl;
+    user.avatarurl = body.avatarurl || user.avatarurl;
     user.role = body.role || user.role;
 }
 
 var messageSchema = mongoose.Schema({
-  userName: String,
+  username: String,
   message: String,
 });
-
-createMessageFromReqBody = body => {
-  return new Message({
-    userName: body.userName,
-    message: body.message,
-  });
-}
 
 var User = mongoose.model("User_Collection", userSchema);
 var Message = mongoose.model("Message_Collection", messageSchema);
 
 exports.index = (req, res) => {
-  res.render("index", {
-    title: "Home Page"
+  Message.find((dbErr, messages) => {
+    if (dbErr) return console.error(dbErr);
+
+    res.render("index", {
+      title: "Home Page",
+      messages,
+      loggedin: (req.session.user != null && req.session.user != undefined)
+    });
   });
 };
+
+exports.postMessage = (req, res) => {
+  var message = new Message({
+    username: req.session.user.username,
+    message: req.body.message
+  });
+
+  message.save((err, message) => {
+    if (err) return console.error(err);
+    console.log(message.username + " posted " + message.message);
+  });
+
+  res.redirect('/');
+}
 
 exports.edit = (req, res) => {
   User.findById(req.params.id, (dbErr, user) => {
@@ -82,14 +95,14 @@ exports.editUser = (req, res) => {
         user.password = hash;
         user.save((err, user) => {
           if (err) return console.error(err);
-          console.log(user.userName + " edited");
+          console.log(user.username + " edited");
         });
         res.redirect("/showAll");
       });
     } else {
       user.save((err, user) => {
         if (err) return console.error(err);
-        console.log(user.userName + " edited");
+        console.log(user.username + " edited");
       });
       res.redirect("/showAll");
     }
@@ -99,7 +112,7 @@ exports.editUser = (req, res) => {
 exports.delete = (req, res) => {
   User.findByIdAndDelete(req.params.id, (dbErr, user) => {
     if (dbErr) return console.error(dbErr);
-    console.log(user.userName + " deleted");
+    console.log(user.username + " deleted");
 
     res.redirect("/");
   });
@@ -122,14 +135,18 @@ exports.login = (req, res) => {
 }
 
 exports.loginUser = (req, res) => {
+  console.log("loginUser");
   User.find((dbErr, users) => {
     if (dbErr) return console.error(dbErr);
 
-    var curUser = users.find(u => u.userName === req.body.userName);
+    var curUser = users.find(u => u.username === req.body.username);
+    console.log("db didn't error");
 
     if (curUser) {
       bcrypt.compare(req.body.password, curUser.password, (bcErr, isMatch) => {
         if (bcErr) return console.error(bcErr);
+        console.log("bc didn't error");
+        
 
         if (isMatch) {//if password matches database hash
           req.session.user = {
@@ -142,7 +159,7 @@ exports.loginUser = (req, res) => {
           res.render('login', {
             title: "Login Page",
             failedMessage: "Password and username do not match.",
-            userName: req.body.userName,
+            username: req.body.username,
           });
         }
       });
@@ -150,7 +167,7 @@ exports.loginUser = (req, res) => {
       res.render('login', {
         title: "Login Page",
         failedMessage: "User does not exist",
-        userName: req.body.userName,
+        username: req.body.username,
       });
     }
 
@@ -169,10 +186,10 @@ exports.signupUser = (req, res) => {
 
     var user = createUserFromReqBody(req.body);
 
-    if (users.some(u => u.userName == req.body.userName)) {
+    if (users.some(u => u.username == req.body.username)) {
       res.render('signup', {
         title: "Signup Page",
-        failedMessage: "Username already in use",
+        failedMessage: "username already in use",
         user
       });
     } else {
@@ -183,7 +200,7 @@ exports.signupUser = (req, res) => {
 
         user.save((err, user) => {
           if (err) return console.error(err);
-          console.log(user.userName + " signed up");
+          console.log(user.username + " signed up");
         });
 
         res.redirect("/");

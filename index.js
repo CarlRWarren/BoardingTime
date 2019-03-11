@@ -37,12 +37,15 @@ var urlencodedParser = bodyParser.urlencoded({
 });
 
 app.get('/', routes.index);
+
+app.post('/postmessage', urlencodedParser, checkAuth, routes.postMessage);
+
 app.get('/login', routes.login);
 app.post('/login', urlencodedParser, routes.loginUser);
 
 app.get('/signup', routes.signup);
 app.post('/signup', urlencodedParser, routes.signupUser);
-app.get('/logout', routes.logout);
+app.get('/logout', checkAuth, routes.logout);
 
 app.get('/admin', checkAdmin, routes.admin);
 
