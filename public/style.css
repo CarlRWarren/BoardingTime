@@ -5,31 +5,45 @@ html{
     text-align: center;
 }
 
+#form {
+    display: flex;
+    margin: 0 auto;
+    flex-direction: row;
+}
+
 .loginF{
     display: inline-block;
 }
 
 .container{
-    justify-content: center;
-    display: flex;
+    /* justify-content: center; */
+    /* display: flex; */
+    text-align: center;
 }
 
 .signupF{
+    min-width: 55%;
+    max-width: 55%;
     text-align: center;
     background: #575366;
-    padding: 50px;
     margin: auto;
-    display: inline-flex;
+    display: flex;
     height: 100%;
+    flex-direction: row;
+    flex-wrap: wrap;
 }
 
 .one {
-    display: inline-block;
+    /* display: inline-block; */
+    flex: 1;
     padding: 50px;
+
 }
   
 .two { 
-    display: inline-block;
+    flex: 1;
+    padding: 50px;
+    /* display: inline-block; */
 }
 
 label{
