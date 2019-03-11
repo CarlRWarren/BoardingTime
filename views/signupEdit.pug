@@ -5,8 +5,8 @@ block content
     div(class = 'signupF')
       form(id='form', method='post', action='/signup')
         div(class='one')
-          h3 Infomation Entry
-          label username:
+          h3(id='h3Info') Infomation Entry
+          label Username:
           br
           input(type='text', name='username')
           br
@@ -44,4 +44,4 @@ block content
             label(class='AvatarText') Color
           div
             input(type='color',id='colorPicker',oninput='avatarUpdateColor()',value="#DEADBF")
-  script(src='script.js')
+  script(src='signupEdit.js')

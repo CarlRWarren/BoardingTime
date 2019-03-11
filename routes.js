@@ -89,7 +89,7 @@ exports.edit = (req, res) => {
   User.findById(req.params.id, (dbErr, user) => {
     if (dbErr) return console.error(dbErr);
 
-    res.render("edit", {
+    res.render("signupEdit", {
       title: "",
       config,
       state: getStateFromSession(req.session),
@@ -147,7 +147,9 @@ exports.details = (req, res) => {
 
 exports.login = (req, res) => {
   res.render('login', {
-    title: "Login Page"
+    title: "Login Page",
+    config,
+    state: getStateFromSession(req.session)
   });
 }
 
@@ -196,8 +198,10 @@ exports.loginUser = (req, res) => {
 }
 
 exports.signup = (req, res) => {
-  res.render('signup', {
-    title: "Signup Page"
+  res.render('signupEdit', {
+    title: "Signup Page",
+    config,
+    state: getStateFromSession(req.session)
   });
 }
 
@@ -208,7 +212,7 @@ exports.signupUser = (req, res) => {
     var user = createUserFromReqBody(req.body);
 
     if (users.some(u => u.username == req.body.username)) {
-      res.render('signup', {
+      res.render('signupEdit', {
         title: "Signup Page",
         config,
         state: getStateFromSession(req.session),
