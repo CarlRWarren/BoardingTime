@@ -124,27 +124,50 @@ exports.editUser = (req, res) => {
   User.findById(req.session.user.id, (dbErr, user) => {
     if (dbErr) return console.error(dbErr);
 
-    editUserFromReqBody(user, req.body);
+    User.find((dbErr, users) => {
+      if (dbErr) return console.error(dbErr);
 
-    if (req.body.password) {
-      bcrypt.hash(req.body.password, null, null, (bcErr, hash) => {
-        if (bcErr) return console.error(bcErr);
-        user.password = hash;
+      if 
+
+      editUserFromReqBody(user, req.body);
+
+      if (req.body.password) {
+        bcrypt.hash(req.body.password, null, null, (bcErr, hash) => {
+          if (bcErr) return console.error(bcErr);
+          user.password = hash;
+          user.save((err, user) => {
+            if (err) return console.error(err);
+            console.log(user.username + " edited");
+          });
+          res.redirect("/");
+        });
+      } else {
         user.save((err, user) => {
           if (err) return console.error(err);
           console.log(user.username + " edited");
         });
         res.redirect("/");
-      });
-    } else {
-      user.save((err, user) => {
-        if (err) return console.error(err);
-        console.log(user.username + " edited");
-      });
-      res.redirect("/");
-    }
+      }
+    });
   });
-};
+}
+
+updateUserReferences = (user, req, onFinished) => {
+  req.session.user.username = user.username;
+
+  Message.find((dbErr, messages) => {
+    if (dbErr) return console.error(dbErr);
+
+    messages.forEach(m => {
+      m.username = user.username;
+    });
+
+    messages.save((err, messages) => {
+      if (err) return console.error(err);
+      onFinished();
+    });
+  });  
+}
 
 exports.delete = (req, res) => {
   var id = req.params.id;

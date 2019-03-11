@@ -5,13 +5,13 @@ block content
         each item in messages
             include partials/message.pug
 
-    if loggedin
-        form(id='form', method='post', action='/postmessage', class="message")
-          label Message:
-          br
-          input(type='text', name='message')
-          br
-          input(type='submit', value='submit')
+        if loggedin
+            form(id='form', method='post', action='/postmessage', class="message")
+            label Message:
+            br
+            input(type='text', name='message')
+            br
+            input(type='submit', value='submit')
     //-bar graph
     div(id="canvasDiv")
         canvas#graphCanvas(width='250', height='280')
