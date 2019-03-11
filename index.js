@@ -71,11 +71,8 @@ app.get('/edit', checkAuth, routes.edit);
 app.post('/edit', checkAuth, urlencodedParser, routes.editUser);
 
 app.get('/delete', checkAuth, routes.delete);
-// app.get('/delete/:id', checkAdmin, routes.delete);
-app.get('/delete/:id', routes.delete);
+app.get('/delete/:id', checkAdmin, routes.delete);
 
 app.get('/details/:id', routes.details);
-
-app.get('/showAll', routes.showAll);
 
 app.listen(3000);
