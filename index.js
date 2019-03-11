@@ -53,4 +53,6 @@ app.get('/delete/:id', routes.delete);
 
 app.get('/details/:id', routes.details);
 
+app.get('/showAll', routes.showAll);
+
 app.listen(3000);

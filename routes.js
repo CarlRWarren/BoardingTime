@@ -75,21 +75,31 @@ exports.editUser = (req, res) => {
     if (dbErr) return console.error(dbErr);
 
     editUserFromReqBody(user, req.body);
-    user.password = hash;
 
-    user.save((err, user) => {
-      if (err) return console.error(err);
-      console.log(user.name + " edited");
-    });
-
-    res.redirect("/");
+    if (user.password) {
+      bcrypt.hash(req.body.password, null, null, (bcErr, hash) => {
+        if (bcErr) return console.error(bcErr);
+        user.password = hash;
+        user.save((err, user) => {
+          if (err) return console.error(err);
+          console.log(user.userName + " edited");
+        });
+        res.redirect("/showAll");
+      });
+    } else {
+      user.save((err, user) => {
+        if (err) return console.error(err);
+        console.log(user.userName + " edited");
+      });
+      res.redirect("/showAll");
+    }
   });
 };
 
 exports.delete = (req, res) => {
   User.findByIdAndDelete(req.params.id, (dbErr, user) => {
     if (dbErr) return console.error(dbErr);
-    console.log(user.name + " deleted");
+    console.log(user.userName + " deleted");
 
     res.redirect("/");
   });
@@ -173,7 +183,7 @@ exports.signupUser = (req, res) => {
 
         user.save((err, user) => {
           if (err) return console.error(err);
-          console.log(user.name + " signed up");
+          console.log(user.userName + " signed up");
         });
 
         res.redirect("/");
@@ -198,3 +208,13 @@ exports.logout = (req, res) => {
   });
 }
 
+exports.showAll = (req, res) => {
+  User.find((dbErr, users) => {
+    if (dbErr) return console.error(dbErr);
+
+    res.render('showAll', {
+      title: "showAll",
+      users
+    })
+  });
+}
