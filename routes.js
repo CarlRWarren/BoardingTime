@@ -121,15 +121,24 @@ exports.edit = (req, res) => {
 };
 
 exports.editUser = (req, res) => {
-  User.findById(req.session.user.id, (dbErr, user) => {
+  User.find((dbErr, users) => {
     if (dbErr) return console.error(dbErr);
 
-    User.find((dbErr, users) => {
-      if (dbErr) return console.error(dbErr);
+    user = users.find(u => u.id == req.session.user.id);
+    console.log(user)
+    editUserFromReqBody(user, req.body);
 
-      if 
-
-      editUserFromReqBody(user, req.body);
+    if (users.some(u => (u.username === user.username && u.id != req.session.user.id))) {
+      res.render("signupEdit", {
+        title: "",
+        config,
+        state: getStateFromSession(req.session),
+        failedMessage: "username already in use",
+        user,
+        edit: true
+      });
+    } else {
+      updateUserReferences(user, req);
 
       if (req.body.password) {
         bcrypt.hash(req.body.password, null, null, (bcErr, hash) => {
@@ -148,7 +157,9 @@ exports.editUser = (req, res) => {
         });
         res.redirect("/");
       }
-    });
+    }
+
+
   });
 }
 
@@ -158,15 +169,15 @@ updateUserReferences = (user, req, onFinished) => {
   Message.find((dbErr, messages) => {
     if (dbErr) return console.error(dbErr);
 
-    messages.forEach(m => {
-      m.username = user.username;
-    });
+    // messages.forEach(m => {
+    //   m.username = user.username;
+    //   m.save((err, messages) => {
+    //     if (err) return console.error(err);
+    //   });
+    //   onFinished();
+    // });
 
-    messages.save((err, messages) => {
-      if (err) return console.error(err);
-      onFinished();
-    });
-  });  
+  });
 }
 
 exports.delete = (req, res) => {
