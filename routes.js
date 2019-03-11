@@ -42,6 +42,7 @@ editUserFromReqBody = (user, body) => {
 var messageSchema = mongoose.Schema({
   username: String,
   message: String,
+  time: Date,
 });
 
 var User = mongoose.model("User_Collection", userSchema);
@@ -82,14 +83,41 @@ exports.index = (req, res) => {
   Message.find((dbErr, messages) => {
     if (dbErr) return console.error(dbErr);
 
-    res.render("index", {
-      title: "Home Page",
-      session: req.session,
-      config,
-      state: getStateFromSession(req.session),
-      messages,
-      loggedin: (req.session.user != null && req.session.user != undefined)
+    User.find((err, users) => {
+      if (err) return console.error(err);
+
+      messages.forEach(m => {
+        user = user.find(u => u.username == m.username);
+        m.avatarurl = user.avatarurl;
+      });
+
+      var graphdata = [];
+      users.forEach(u => {
+        graphUser = {
+          imgUrl: u.avatarurl,
+          messageCount: 0
+        };
+
+        messages.forEach(m => {
+          if (m.username == u.username) {
+            graphUser.messageCount++;
+          }
+        });
+
+        graphdata.push(graphUser);
+      });
+
+      res.render("index", {
+        title: "Home Page",
+        session: req.session,
+        config,
+        state: getStateFromSession(req.session),
+        messages,
+        graphUser,
+        loggedin: (req.session.user != null && req.session.user != undefined)
+      });
     });
+
   });
 };
 
@@ -97,7 +125,7 @@ exports.postMessage = (req, res) => {
   var message = new Message({
     username: req.session.user.username,
     message: req.body.message,
-
+    time: new Date
   });
 
   message.save((err, message) => {
