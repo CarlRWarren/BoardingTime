@@ -36,7 +36,6 @@ editUserFromReqBody = (user, body) => {
   user.email = body.email || user.email;
   user.age = body.age || user.age;
   user.avatarurl = body.avatarurl || user.avatarurl;
-  console.log("avatarurl edited to " + body.avatarurl);
   user.role = body.role || user.role;
 }
 
@@ -106,7 +105,7 @@ exports.editUser = (req, res) => {
 
     editUserFromReqBody(user, req.body);
 
-    if (user.password) {
+    if (req.body.password) {
       bcrypt.hash(req.body.password, null, null, (bcErr, hash) => {
         if (bcErr) return console.error(bcErr);
         user.password = hash;
