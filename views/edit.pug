@@ -1,12 +1,12 @@
-extends testLayout
+extends layout
 
 block content
-    form(id="form", method="post", action="/edit/"+person.id)
+    form(id="form", method="post", action="/edit/"+user.id)
         label User Name:
-        input(type="text", name="userName")
+        input(type="text", name="username")
         br
         label Avatar Url:
-        input(type="text", name="avaterUrl")
+        input(type="text", name="avatarurl")
         br
         label Password:
         input(type="text", name="password")

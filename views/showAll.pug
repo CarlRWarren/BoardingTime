@@ -1,4 +1,4 @@
-extends testLayout
+extends Layout
 
 block content
     table(class="gridtable")
@@ -16,7 +16,7 @@ block content
             tr
                 td 
                     a(href="/details/" + item.id) #{item.id}
-                include head.pug
+                include partials/head.pug
                 td
                     a(href="/edit/" + item.id) Edit
                 td 

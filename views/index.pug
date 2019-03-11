@@ -1,7 +1,17 @@
 extends layout
 
 block content
-    h1 Home Page 
+    each item in messages
+        include partials/message.pug
+
+    if loggedin
+        form(id='form', method='post', action='/postmessage', class="message")
+          label Message:
+          br
+          input(type='text', name='message')
+          br
+          input(type='submit', value='submit')
+    //-bar graph
     canvas#graphCanvas(width='500', height='500')
     script().
         var userList = !{'{ "users": [ {"messageCount": 20, "imgUrl": "https://www.bing.com/th?id=OIP.eOa7NeLUCu7SuY19m1oA1QHaFj&w=263&h=197&c=7&o=5&pid=1.7"}, {"messageCount": 3, "imgUrl": "https://www.bing.com/th?id=OIP.NuGikFdjKUFdRW6RK8E6dgHaFM&w=284&h=199&c=7&o=5&pid=1.7"}, {"messageCount": 10, "imgUrl": "https://www.bing.com/th?id=OIP.IKOHjjSYePJSmEsMSA10oQHaGa&w=243&h=205&c=7&o=5&pid=1.7"} ] }'};
