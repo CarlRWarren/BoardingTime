@@ -57,6 +57,27 @@ getStateFromSession = (session) => {
   }
 }
 
+User.find((dbErr, users) => {
+  if (dbErr) return console.error(dbErr);
+
+  if (!users.some(u => u.role === "admin")) {
+    bcrypt.hash("pass", null, null, (bcErr, hash) => {
+      if (bcErr) return console.error(bcErr);
+      user = new User({
+        username: "admin",
+        avatarurl: "",
+        role: "admin",
+        password: hash
+      });
+
+      user.save((err, user) => {
+        if (err) return console.error(err);
+        console.log(user.username + " created");
+      });
+    });
+  }
+});
+
 exports.index = (req, res) => {
   Message.find((dbErr, messages) => {
     if (dbErr) return console.error(dbErr);
@@ -249,8 +270,14 @@ exports.signupUser = (req, res) => {
 }
 
 exports.admin = (req, res) => {
-  res.render('admin', {
-    title: "Admin"
+  User.find((dbErr, users) => {
+    if (dbErr) return console.error(dbErr);
+    res.render('admin', {
+      title: "Admin",
+      config,
+      state: getStateFromSession(req.session),
+      users
+    });
   });
 }
 
@@ -261,18 +288,5 @@ exports.logout = (req, res) => {
     } else {
       res.redirect('/');
     }
-  });
-}
-
-exports.showAll = (req, res) => {
-  User.find((dbErr, users) => {
-    if (dbErr) return console.error(dbErr);
-
-    res.render('showAll', {
-      title: "showAll",
-      config,
-      state: getStateFromSession(req.session),
-      users
-    })
   });
 }
