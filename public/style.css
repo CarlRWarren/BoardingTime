@@ -70,6 +70,11 @@ h3{
     height: 2em;
 }
 
+.messageImg{
+    height: 60px;
+    width: 60px;
+}
+
 .AvatarText{
     position: relative;
     color: white;

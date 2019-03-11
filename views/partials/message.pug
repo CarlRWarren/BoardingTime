@@ -1,7 +1,7 @@
 //- item
 div(id="message")
     div(class="userBox")
-        label=item.username
+        img(class='messageImg',src=item.avatarurl)
     div(class="messageBox")
         p=item.message
         if session.user && ((item.username == session.user.username) || session.user.isAdmin)
