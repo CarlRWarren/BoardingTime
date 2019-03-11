@@ -237,8 +237,8 @@ exports.signupUser = (req, res) => {
           req.session.user = {
             isAuthenticated: true,
             username: req.body.username,
-            id: curUser.id,
-            isAdmin: (curUser.role === "admin")
+            id: user.id,
+            isAdmin: (user.role === "admin")
           };
           res.redirect("/");
         });

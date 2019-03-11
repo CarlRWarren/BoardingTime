@@ -22,9 +22,21 @@ if (!img.src) {
     hidsrc.value = Avatar;
 } else {
     src = img.src;
-    hexRegex = /[A-Fa-f\d]{6}/;
-    colorHex = src.match(hexRegex);
-    colorPicker.value = `#${colorHex}`;
+    var hexRegex = /[A-Fa-f\d]{6}/;
+    color = src.match(hexRegex)[0];
+    colorPicker.value = `#${color}`;
+    
+    var eyesRegex = /eyes\d+/;
+    eyes = src.match(eyesRegex)[0];
+    eyesIndex = eyesList.indexOf(eyes);
+
+    var noseRegex = /nose\d+/;
+    nose = src.match(noseRegex)[0];
+    noseIndex = noseList.indexOf(nose);
+
+    var mouthRegex = /mouth\d+/;
+    mouth = src.match(mouthRegex)[0];
+    mouthIndex = mouthList.indexOf(mouth);
 }
 
 var avatarUpdateColor = () =>{
@@ -37,7 +49,7 @@ var avatarUpdateColor = () =>{
 
 var avatarEyesUp = () => {
     eyesIndex++;
-    if(eyesIndex > 8){
+    if(eyesIndex > eyesList.length - 1){
         eyesIndex = 0;
     }
     eyes = eyesList[eyesIndex];
@@ -50,7 +62,7 @@ var avatarEyesUp = () => {
 var avatarEyesDown = () => {
     eyesIndex--;
     if(eyesIndex < 0){
-        eyesIndex = 8;
+        eyesIndex = eyesList.length - 1;
     }
     eyes = eyesList[eyesIndex];
     Avatar = `https://api.adorable.io/avatars/face/${eyes}/${nose}/${mouth}/${color}/300`;
@@ -60,7 +72,7 @@ var avatarEyesDown = () => {
 
 var avatarNoseUp = () => {
     noseIndex++;
-    if(noseIndex > noseList.length){
+    if(noseIndex > noseList.length - 1){
         noseIndex = 0;
     }
     nose = noseList[noseIndex];
@@ -72,7 +84,7 @@ var avatarNoseUp = () => {
 var avatarNoseDown = () => {
     noseIndex--;
     if(noseIndex < 0){
-        noseIndex = noseList.length;
+        noseIndex = noseList.length - 1;
     }
     nose = noseList[noseIndex];
     Avatar = `https://api.adorable.io/avatars/face/${eyes}/${nose}/${mouth}/${color}/300`;
