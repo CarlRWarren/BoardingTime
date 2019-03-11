@@ -65,7 +65,7 @@ User.find((dbErr, users) => {
       if (bcErr) return console.error(bcErr);
       user = new User({
         username: "admin",
-        avatarurl: "",
+        avatarurl: "https://api.adorable.io/avatars/face/eyes2/nose2/mouth7/ff0000/300",
         role: "admin",
         password: hash
       });
