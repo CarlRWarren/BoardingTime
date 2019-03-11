@@ -1,6 +1,8 @@
 let graphCanvas = document.getElementById('graphCanvas')
 let ctx = graphCanvas.getContext('2d');
 
+//#region Helper Functions
+
 const clamp = (value, max, min) => {
     return (value > max) ? max : (value < min) ? min : value;
 }
@@ -10,6 +12,11 @@ const lerpNumber = (a, b, t) => {
     return a + (t * (b - a));
 }
 
+//#endregion
+
+//#region "Data" Classes
+
+//#region Vector 2
 
 class Vector2 {
     constructor(x = 0, y = 0) {
@@ -42,6 +49,9 @@ class Vector2 {
     }
 }
 
+//#endregion
+
+//#region Color
 class Color {
     constructor(r, g, b) {
         this.r = r;
@@ -54,13 +64,27 @@ class Color {
     }
 }
 
+const colorFromHex = hexCode => {
+    let r = parseInt(hexCode.substring(0, 2), 16);
+    let g = parseInt(hexCode.substring(2, 4), 16);
+    let b = parseInt(hexCode.substring(4), 16);
+    return new Color(r, g, b)
+}
+
+//#endregion
+
+//#endregion
+
+//#region "Graph" Classes
+
+//#region GraphBar
+
 class GraphBar {
     constructor(value, color) {
         this.value = value;
         this.color = color;
     }
 
-    //Scale Bar Relative to Canvas Size - Scalars are Relative Graph Units
     scaleBar(xScalar, yScalar) {
         return new Vector2(xScalar, yScalar * this.value);
     }
@@ -71,6 +95,10 @@ class GraphBar {
         ctx.fillRect(position.x - (scaledBar.x / 2), position.y - scaledBar.y, scaledBar.x, scaledBar.y);
     }
 }
+
+//#endregion
+
+//#region UserInfo
 
 class UserInfo {
     constructor(imgUrl, messageCount) {
@@ -83,11 +111,13 @@ class UserInfo {
         image.onload = () => {
             ctx.drawImage(image, position.x - (size / 2), position.y - (size / 2), size, size);
         };
-        //image.src = 'https://www.bing.com/th?id=OIP.eOa7NeLUCu7SuY19m1oA1QHaFj&w=263&h=197&c=7&o=5&pid=1.7';
         image.src = this.imgUrl;
-        console.log('draw');
     }
 }
+
+//#endregion
+
+//#region BarGraph
 
 class BarGraph {
     constructor(ctx, graphCanvas, barWidth, barMargin, barMaxHeight, barXoffset) {
@@ -113,6 +143,8 @@ class BarGraph {
         this.users.push(user);
         this.graphBars.push(new GraphBar(user.messageCount, new Color(0, 255, 0)));
     }
+
+    //#region Draw Functions
 
     drawGraph() {
         let maxMessages = this.getUserWithMostPosts();
@@ -168,18 +200,28 @@ class BarGraph {
         ctx.fillText(0, lineStartX - (this.barXoffset * .2) - this.barMargin, this.barMaxHeight + ctx.lineWidth + 10, this.barXoffset * .3);
         ctx.save();
         ctx.translate(0, 500);
-        ctx.rotate(-Math.PI/2);
+        ctx.rotate(-Math.PI / 2);
         ctx.textAlign = "center";
         ctx.fillText("Number of Posts Per User", ((2 * this.graphCanvas.height) - this.barMaxHeight) * .5, (this.barXoffset * .25));
         ctx.restore();
     }
 
+    //#endregion
+
 }
+
+//#endregion
+
+//#endregion
+
+//#region Graph Initialization and Drawing
 
 let graph = new BarGraph(ctx, graphCanvas, 40, 5, 420, 100);
 userList.users.forEach(user => {
     graph.addUser(new UserInfo(user.imgUrl, user.messageCount));
 });
+
+//#region TEST CODE
 // graph.addUser(new UserInfo("https://www.bing.com/th?id=OIP.eOa7NeLUCu7SuY19m1oA1QHaFj&w=263&h=197&c=7&o=5&pid=1.7", 3));
 // graph.addUser(new UserInfo("https://www.bing.com/th?id=OIP.eOa7NeLUCu7SuY19m1oA1QHaFj&w=263&h=197&c=7&o=5&pid=1.7", 3));
 // graph.addUser(new UserInfo("https://www.bing.com/th?id=OIP.eOa7NeLUCu7SuY19m1oA1QHaFj&w=263&h=197&c=7&o=5&pid=1.7", 3));
@@ -192,4 +234,8 @@ userList.users.forEach(user => {
 // graph.addUser(new UserInfo("https://www.bing.com/th?id=OIP.eOa7NeLUCu7SuY19m1oA1QHaFj&w=263&h=197&c=7&o=5&pid=1.7", 3));
 // graph.addUser(new UserInfo("https://www.bing.com/th?id=OIP.eOa7NeLUCu7SuY19m1oA1QHaFj&w=263&h=197&c=7&o=5&pid=1.7", 3));
 // graph.addUser(new UserInfo("https://www.bing.com/th?id=OIP.eOa7NeLUCu7SuY19m1oA1QHaFj&w=263&h=197&c=7&o=5&pid=1.7", 3));
+//#endregion
+
 graph.drawGraph();
+
+//#endregion
