@@ -83,6 +83,41 @@ nav a{
 
 
 #message{
+    display: flex;
+    flex-direction: row;
     background: #1a1423;
     color: #feeafa;
+}
+
+.userBox{
+    flex: 1;
+}
+
+.messageBox{
+    flex: 4;
+}
+
+.messageBoard{
+    max-width: 55%;
+    min-width: 55%;
+    margin: 0 auto;
+}
+
+.navBar{
+    max-width: 55%;
+    min-width: 55%;
+    margin: 0 auto;
+}
+
+nav{
+    background: #575366;
+    margin: 0;
+    padding: 5px;
+}
+ul{
+    margin: 0;
+    padding: 0;
+}
+body{
+    margin: 0;
 }
