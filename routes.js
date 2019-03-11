@@ -87,7 +87,7 @@ exports.index = (req, res) => {
       if (err) return console.error(err);
 
       messages.forEach(m => {
-        user = user.find(u => u.username == m.username);
+        user = users.find(u => u.username == m.username);
         m.avatarurl = user.avatarurl;
       });
 
