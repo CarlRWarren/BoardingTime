@@ -198,8 +198,7 @@ exports.loginUser = (req, res) => {
 }
 
 exports.signup = (req, res) => {
-  res.render('signup', {
-    title: "Signup Page",
+  res.render('signupEdit', {
     config,
     state: getStateFromSession(req.session)
   });
@@ -212,7 +211,7 @@ exports.signupUser = (req, res) => {
     var user = createUserFromReqBody(req.body);
 
     if (users.some(u => u.username == req.body.username)) {
-      res.render('signup', {
+      res.render('signupEdit', {
         title: "Signup Page",
         config,
         state: getStateFromSession(req.session),
