@@ -71,29 +71,18 @@ exports.edit = (req, res) => {
 };
 
 exports.editUser = (req, res) => {
-  User.findById(req.params.id, (err, user) => {
-    if (err) return console.error(err);
-    user.userName = req.body.userName;
-    user.avaterUrl = req.body.avaterUrl;
+  User.findById(req.params.id, (dbErr, user) => {
+    if (dbErr) return console.error(dbErr);
+
+    editUserFromReqBody(user, req.body);
     user.password = hash;
-    user.role = req.body.role;
-    user.email = req.body.email;
-    user.age = req.body.age;
 
-    if (req.body.password !== "") {
-      bcrypt.hash(req.body.password, null, null, (err, hash) => {
-        if (err) return console.error(err);
+    user.save((err, user) => {
+      if (err) return console.error(err);
+      console.log(user.name + " edited");
+    });
 
-        user.password = hash;
-
-        user.save((err, user) => {
-          if (err) return console.error(err);
-          console.log(user.name + " edited");
-          res.redirect("/");
-        });
-      });
-    }
-
+    res.redirect("/");
   });
 };
 
@@ -107,8 +96,8 @@ exports.delete = (req, res) => {
 };
 
 exports.details = (req, res) => {
-  User.findById(req.params.id, (err, user)=> {
-    if (err) return console.error(err);
+  User.findById(req.params.id, (dbErr, user) => {
+    if (dbErr) return console.error(dbErr);
     res.render("details", {
       title: "Person Details",
       user
@@ -117,9 +106,9 @@ exports.details = (req, res) => {
 };
 
 exports.login = (req, res) => {
-    res.render('login', {
-        title: "Login Page"
-    });
+  res.render('login', {
+    title: "Login Page"
+  });
 }
 
 exports.loginUser = (req, res) => {
@@ -159,7 +148,53 @@ exports.loginUser = (req, res) => {
 }
 
 exports.signup = (req, res) => {
-    res.render('signup', {
-        title: "Signup Page"
-    });
+  res.render('signup', {
+    title: "Signup Page"
+  });
 }
+
+exports.signupUser = (req, res) => {
+  User.find((dbErr, users) => {
+    if (dbErr) return console.error(dbErr);
+
+    var user = createUserFromReqBody(req.body);
+
+    if (users.some(u => u.userName == req.body.userName)) {
+      res.render('signup', {
+        title: "Signup Page",
+        failedMessage: "Username already in use",
+        user
+      });
+    } else {
+      bcrypt.hash(req.body.password, null, null, (bcErr, hash) => {
+        if (bcErr) return console.error(bcErr);
+
+        user.password = hash;
+
+        user.save((err, user) => {
+          if (err) return console.error(err);
+          console.log(user.name + " signed up");
+        });
+
+        res.redirect("/");
+      });
+    }
+  });
+}
+
+exports.admin = (req, res) => {
+  res.render('admin', {
+    title: "Admin"
+  });
+}
+
+exports.logout = (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.redirect('/');
+    }
+  });
+}
+

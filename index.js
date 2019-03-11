@@ -46,9 +46,6 @@ app.get('/logout', routes.logout);
 
 app.get('/admin', checkAdmin, routes.admin);
 
-app.get('/create', routes.create);
-app.post('/create', urlencodedParser, routes.createUser)
-
 app.get('/edit/:id', routes.edit);
 app.post('/edit/:id', urlencodedParser, routes.editUser)
 
