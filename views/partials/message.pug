@@ -4,7 +4,7 @@ div(id="message")
         label=item.username
     div(class="messageBox")
         p=item.message
-        //- if ()
-        a(href="/deletemessage/"+item.id)
-            button
-                text="Delete"
+        if session.user && item.username == session.user.username
+            a(href="/deletemessage/"+item.id)
+               button
+                 text="Delete"

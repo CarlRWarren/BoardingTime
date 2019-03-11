@@ -84,6 +84,7 @@ exports.index = (req, res) => {
 
     res.render("index", {
       title: "Home Page",
+      session: req.session,
       config,
       state: getStateFromSession(req.session),
       messages,
@@ -227,6 +228,7 @@ exports.details = (req, res) => {
     if (dbErr) return console.error(dbErr);
     res.render("details", {
       title: "Person Details",
+      session: req.session,
       config,
       state: getStateFromSession(req.session),
       user
@@ -237,6 +239,7 @@ exports.details = (req, res) => {
 exports.login = (req, res) => {
   res.render('login', {
     title: "Login Page",
+    session: req.session,
     config,
     state: getStateFromSession(req.session)
   });
@@ -267,6 +270,7 @@ exports.loginUser = (req, res) => {
         } else {
           res.render('login', {
             title: "Login Page",
+            session: req.session,
             config,
             state: getStateFromSession(req.session),
             failedMessage: "Password and username do not match.",
@@ -277,6 +281,7 @@ exports.loginUser = (req, res) => {
     } else {
       res.render('login', {
         title: "Login Page",
+        session: req.session,
         config,
         state: getStateFromSession(req.session),
         failedMessage: "User does not exist",
@@ -290,6 +295,7 @@ exports.loginUser = (req, res) => {
 exports.signup = (req, res) => {
   res.render('signupEdit', {
     title: "Signup Page",
+    session: req.session,
     config,
     state: getStateFromSession(req.session)
   });
@@ -304,6 +310,7 @@ exports.signupUser = (req, res) => {
     if (users.some(u => u.username == req.body.username)) {
       res.render('signupEdit', {
         title: "Signup Page",
+        session: req.session,
         config,
         state: getStateFromSession(req.session),
         failedMessage: "username already in use",
@@ -337,6 +344,7 @@ exports.admin = (req, res) => {
     if (dbErr) return console.error(dbErr);
     res.render('admin', {
       title: "Admin",
+      session: req.session,
       config,
       state: getStateFromSession(req.session),
       users
