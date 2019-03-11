@@ -186,29 +186,26 @@ exports.editUser = (req, res) => {
 }
 
 updateUserReferences = (user, oldUsername, onFinished, index = 0) => {
-  
   Message.find((dbErr, messages) => {
     if (dbErr) return console.error(dbErr);
-    
-    console.log(messages[index]);
-    console.log(index);
-    while (messages[index].username != oldUsername) {
+    while (messages[index] && messages[index].username != oldUsername) {
       index++;
     }
 
     if (index >= messages.length) {
       onFinished();
+    } else {
+      messages[index].username = user.username;
+      messages[index].save((err, message) => {
+        if (err) return console.error(err);
+        
+        if (index >= messages.length) {
+          onFinished();
+        } else {
+          updateUserReferences(user, oldUsername, onFinished, index + 1);
+        }
+      });
     }
-
-    messages[index].username = user.username;
-    messages[index].save((err, messages) => {
-      if (err) return console.error(err);
-      if (index < messages.length - 1) {
-        updateUserReferences(user, oldUsername, onFinished, index + 1);
-      } else {
-        onFinished();
-      }
-    });
   });
 }
 
