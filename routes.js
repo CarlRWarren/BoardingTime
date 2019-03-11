@@ -235,9 +235,15 @@ exports.signupUser = (req, res) => {
         user.save((err, user) => {
           if (err) return console.error(err);
           console.log(user.username + " signed up");
+          req.session.user = {
+            isAuthenticated: true,
+            username: req.body.username,
+            id: curUser.id,
+            isAdmin: (curUser.role === "admin")
+          };
+          res.redirect("/");
         });
 
-        res.redirect("/");
       });
     }
   });
