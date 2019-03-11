@@ -3,20 +3,20 @@ extends layout
 block content
   div(class='container')
     div(class = 'signupF')
-      form(id='form', method='post', action='/signup')
+      form(id='form', method='post', action=edit?"/edit/"+user.id:"/signup")
         div(class='one')
           h3(id='h3Info') Infomation Entry
           label Username:
           br
-          input(type='text', name='username')
+          input(type='text', name='username', value=user&&user.username)
           br
           label Email:
           br
-          input(type='text', name='email')
+          input(type='text', name='email', value=user&&user.email)
           br
           label Age:
           br
-          input(type='text', name='age')
+          input(type='text', name='age', value=user&&user.age)
           br
           label Password:
           br
@@ -25,23 +25,23 @@ block content
           br
           input(type='submit', value='submit') 
         div(class='two')
-          img(id='avatar',src='')
-          input(type='text', class="hidden", id="hiddenSrc", name="avatarUrl")
+          img(id='avatar',src=user&&user.avatarurl)
+          input(type='text', class="hidden", id="hiddenSrc", name="avatarUrl", value=user&&user.avatarurl)
           div 
-            img(class='selectors', id='leftArrowButton', src='arrowLeft.png',onclick='avatarEyesUp()')
+            img(class='selectors', id='leftArrowButton', src='/arrowLeft.png',onclick='avatarEyesUp()')
             label(class='AvatarText') Eyes
-            img(class='selectors', id='rightArrowButton', src='arrowRight.png',onclick='avatarEyesDown()')
+            img(class='selectors', id='rightArrowButton', src='/arrowRight.png',onclick='avatarEyesDown()')
           div
-            img(class='selectors', id='leftArrowButtonNose', src='arrowLeft.png',onclick='avatarNoseUp()')
+            img(class='selectors', id='leftArrowButtonNose', src='/arrowLeft.png',onclick='avatarNoseUp()')
             label(class='AvatarText') Nose
-            img(class='selectors', id='rightArrowButtonNose', src='arrowRight.png',onclick='avatarNoseDown()')
+            img(class='selectors', id='rightArrowButtonNose', src='/arrowRight.png',onclick='avatarNoseDown()')
           div
-            img(class='selectors', id='leftArrowButtonNose', src='arrowLeft.png',onclick='avatarMouthUp()')
+            img(class='selectors', id='leftArrowButtonNose', src='/arrowLeft.png',onclick='avatarMouthUp()')
             label(class='AvatarText') Mouth
-            img(class='selectors', id='rightArrowButtonNose', src='arrowRight.png',onclick='avatarMouthDown()')
+            img(class='selectors', id='rightArrowButtonNose', src='/arrowRight.png',onclick='avatarMouthDown()')
           div
             br       
             label(class='AvatarText') Color
           div
             input(type='color',id='colorPicker',oninput='avatarUpdateColor()',value="#DEADBF")
-  script(src='signupEdit.js')
+  script(src='/signupEdit.js')

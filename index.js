@@ -49,8 +49,11 @@ app.get('/logout', checkAuth, routes.logout);
 
 app.get('/admin', checkAdmin, routes.admin);
 
+app.get('/edit', routes.edit);
+app.post('/edit', urlencodedParser, routes.editUser);
+
 app.get('/edit/:id', routes.edit);
-app.post('/edit/:id', urlencodedParser, routes.editUser)
+app.post('/edit/:id', urlencodedParser, routes.editUser);
 
 app.get('/delete/:id', routes.delete);
 

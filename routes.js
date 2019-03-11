@@ -86,20 +86,30 @@ exports.postMessage = (req, res) => {
 }
 
 exports.edit = (req, res) => {
-  User.findById(req.params.id, (dbErr, user) => {
+  var id = req.params.id;
+  if (!id) {
+    id = req.session.user.id;
+  }
+  User.findById(id, (dbErr, user) => {
     if (dbErr) return console.error(dbErr);
 
     res.render("signupEdit", {
       title: "",
       config,
       state: getStateFromSession(req.session),
-      user
+      user,
+      edit: true
     });
   });
 };
 
 exports.editUser = (req, res) => {
-  User.findById(req.params.id, (dbErr, user) => {
+  var id = req.params.id;
+  if (!id) {
+    id = req.session.user.id;
+  }
+  
+  User.findById(id, (dbErr, user) => {
     if (dbErr) return console.error(dbErr);
 
     editUserFromReqBody(user, req.body);
@@ -112,14 +122,14 @@ exports.editUser = (req, res) => {
           if (err) return console.error(err);
           console.log(user.username + " edited");
         });
-        res.redirect("/showAll");
+        res.redirect("/");
       });
     } else {
       user.save((err, user) => {
         if (err) return console.error(err);
         console.log(user.username + " edited");
       });
-      res.redirect("/showAll");
+      res.redirect("/");
     }
   });
 };
@@ -171,6 +181,7 @@ exports.loginUser = (req, res) => {
           req.session.user = {
             isAuthenticated: true,
             username: req.body.username,
+            id: curUser.id,
             isAdmin: (curUser.role === "admin")
           };
           res.redirect('/');
