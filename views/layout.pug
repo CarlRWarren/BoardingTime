@@ -4,6 +4,17 @@ html
         link(rel="stylesheet", href="/style.css")
         title #{title}
     body
+        nav
+            ul
+                if state=="logged out"
+                    each item in config.notLoggedInMenu
+                        include partials/nav.pug
+                if state=="user"
+                    each item in config.nonAdminMenu
+                        include partials/nav.pug
+                if state=="admin"
+                    each item in config.adminMenu
+                        include partials/nav.pug
         block content
         script(src='chart.js')
         

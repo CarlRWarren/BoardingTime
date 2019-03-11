@@ -1,5 +1,6 @@
 const mongoose = require("mongoose"),
-  bcrypt = require("bcrypt-nodejs");
+  bcrypt = require("bcrypt-nodejs"),
+  config = require("./config.json");
 
 mongoose.Promise = global.Promise;
 mongoose.connect("mongodb://localhost/data", {
@@ -31,11 +32,11 @@ createUserFromReqBody = body => {
 }
 
 editUserFromReqBody = (user, body) => {
-    user.username = body.username || user.username;
-    user.email = body.email || user.email;
-    user.age = body.age || user.age;
-    user.avatarurl = body.avatarurl || user.avatarurl;
-    user.role = body.role || user.role;
+  user.username = body.username || user.username;
+  user.email = body.email || user.email;
+  user.age = body.age || user.age;
+  user.avatarurl = body.avatarurl || user.avatarurl;
+  user.role = body.role || user.role;
 }
 
 var messageSchema = mongoose.Schema({
@@ -46,12 +47,24 @@ var messageSchema = mongoose.Schema({
 var User = mongoose.model("User_Collection", userSchema);
 var Message = mongoose.model("Message_Collection", messageSchema);
 
+getStateFromSession = (session) => {
+  if (!session.user) {
+    return "logged out";
+  } else if (session.user.isAdmin) {
+    return "admin";
+  } else {
+    return "user";
+  }
+}
+
 exports.index = (req, res) => {
   Message.find((dbErr, messages) => {
     if (dbErr) return console.error(dbErr);
 
     res.render("index", {
       title: "Home Page",
+      config,
+      state: getStateFromSession(req.session),
       messages,
       loggedin: (req.session.user != null && req.session.user != undefined)
     });
@@ -78,6 +91,8 @@ exports.edit = (req, res) => {
 
     res.render("edit", {
       title: "",
+      config,
+      state: getStateFromSession(req.session),
       user
     });
   });
@@ -123,6 +138,8 @@ exports.details = (req, res) => {
     if (dbErr) return console.error(dbErr);
     res.render("details", {
       title: "Person Details",
+      config,
+      state: getStateFromSession(req.session),
       user
     });
   });
@@ -146,7 +163,7 @@ exports.loginUser = (req, res) => {
       bcrypt.compare(req.body.password, curUser.password, (bcErr, isMatch) => {
         if (bcErr) return console.error(bcErr);
         console.log("bc didn't error");
-        
+
 
         if (isMatch) {//if password matches database hash
           req.session.user = {
@@ -158,6 +175,8 @@ exports.loginUser = (req, res) => {
         } else {
           res.render('login', {
             title: "Login Page",
+            config,
+            state: getStateFromSession(req.session),
             failedMessage: "Password and username do not match.",
             username: req.body.username,
           });
@@ -166,6 +185,8 @@ exports.loginUser = (req, res) => {
     } else {
       res.render('login', {
         title: "Login Page",
+        config,
+        state: getStateFromSession(req.session),
         failedMessage: "User does not exist",
         username: req.body.username,
       });
@@ -189,6 +210,8 @@ exports.signupUser = (req, res) => {
     if (users.some(u => u.username == req.body.username)) {
       res.render('signup', {
         title: "Signup Page",
+        config,
+        state: getStateFromSession(req.session),
         failedMessage: "username already in use",
         user
       });
@@ -231,6 +254,8 @@ exports.showAll = (req, res) => {
 
     res.render('showAll', {
       title: "showAll",
+      config,
+      state: getStateFromSession(req.session),
       users
     })
   });
