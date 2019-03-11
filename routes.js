@@ -96,7 +96,8 @@ exports.index = (req, res) => {
 exports.postMessage = (req, res) => {
   var message = new Message({
     username: req.session.user.username,
-    message: req.body.message
+    message: req.body.message,
+
   });
 
   message.save((err, message) => {
@@ -111,7 +112,7 @@ exports.deleteMessage = (req, res) => {
   Message.findById(req.params.id, (dbErr, message) => {
     if (dbErr) return console.error(dbErr);
 
-    if (message.username == req.session.user.username || req.session.user) {
+    if (message.username == req.session.user.username || req.session.user.isAdmin) {
       res.redirect("/");
     } else {
       Message.findByIdAndDelete(req.params.id, (err, message) => {
