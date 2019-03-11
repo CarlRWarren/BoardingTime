@@ -13,17 +13,42 @@ mdb.once("open", function (callback) { });
 
 var userSchema = mongoose.Schema({
   userName: String,
-  avaterUrl: String,
-  password: String,
-  role: String,
   email: String,
-  age: String
+  age: String,
+  password: String,
+  avaterUrl: String,
+  role: String,
 });
+
+createUserFromReqBody = body => {
+  return new User({
+    userName: body.userName,
+    email: body.email,
+    age: body.age,
+    avaterUrl: body.avaterUrl,
+    role: body.role || "user",
+  });
+}
+
+editUserFromReqBody = (user, body) => {
+    user.userName = body.userName || user.userName;
+    user.email = body.email || user.email;
+    user.age = body.age || user.age;
+    user.avaterUrl = body.avaterUrl || user.avaterUrl;
+    user.role = body.role || user.role;
+}
 
 var messageSchema = mongoose.Schema({
   userName: String,
-  message: String
+  message: String,
 });
+
+createMessageFromReqBody = body => {
+  return new Message({
+    userName: body.userName,
+    message: body.message,
+  });
+}
 
 var User = mongoose.model("User_Collection", userSchema);
 var Message = mongoose.model("Message_Collection", messageSchema);
@@ -34,36 +59,9 @@ exports.index = (req, res) => {
   });
 };
 
-exports.create = (req, res) => {
-  res.render("create", {
-    title: ""
-  });
-};
-
-exports.createUser = (req, res) => {
-  bcrypt.hash(req.body.password, null, null, (err, hash) => {
-    if (err) return console.error(err);
-
-    var user = new User({
-      userName: req.body.userName,
-      avaterUrl: req.body.avaterUrl,
-      password: hash,
-      role: req.body.role,
-      email: req.body.email,
-      age: req.body.age
-    });
-
-    user.save((err, user) => {
-      if (err) return console.error(err);
-      console.log(user.userName + " added");
-    });
-  });
-  res.redirect("/");
-};
-
 exports.edit = (req, res) => {
-  User.findById(req.params.id, (err, user) => {
-    if (err) return console.error(err);
+  User.findById(req.params.id, (dbErr, user) => {
+    if (dbErr) return console.error(dbErr);
 
     res.render("edit", {
       title: "",
@@ -82,18 +80,26 @@ exports.editUser = (req, res) => {
     user.email = req.body.email;
     user.age = req.body.age;
 
-    user.save((err, user) => {
-      if (err) return console.error(err);
-      console.log(user.name + " edited");
-    });
+    if (req.body.password !== "") {
+      bcrypt.hash(req.body.password, null, null, (err, hash) => {
+        if (err) return console.error(err);
 
-    res.redirect("/");
+        user.password = hash;
+
+        user.save((err, user) => {
+          if (err) return console.error(err);
+          console.log(user.name + " edited");
+          res.redirect("/");
+        });
+      });
+    }
+
   });
 };
 
 exports.delete = (req, res) => {
-  User.findByIdAndDelete(req.params.id, (err, user) => {
-    if (err) return console.error(err);
+  User.findByIdAndDelete(req.params.id, (dbErr, user) => {
+    if (dbErr) return console.error(dbErr);
     console.log(user.name + " deleted");
 
     res.redirect("/");
@@ -101,7 +107,7 @@ exports.delete = (req, res) => {
 };
 
 exports.details = (req, res) => {
-  User.findById(req.params.id, (err, user) => {
+  User.findById(req.params.id, (err, user)=> {
     if (err) return console.error(err);
     res.render("details", {
       title: "Person Details",
@@ -110,29 +116,23 @@ exports.details = (req, res) => {
   });
 };
 
-// exports.index = (req, res) => {
-//   res.render("index", {
-//     title: "Home Page"
-//   });
-// };
-
 exports.login = (req, res) => {
-  res.render('login', {
-    title: "Login Page"
-  });
+    res.render('login', {
+        title: "Login Page"
+    });
 }
 
 exports.loginUser = (req, res) => {
-  User.find((err, user) => {
-    if (err) return console.error(err);
+  User.find((dbErr, users) => {
+    if (dbErr) return console.error(dbErr);
 
-    var curUser = user.find(u => u.userName === req.body.userName);
+    var curUser = users.find(u => u.userName === req.body.userName);
 
     if (curUser) {
-      bcrypt.compare(req.body.password, curUser.password, (err, res) => {
-        if (err) return console.error(err);
+      bcrypt.compare(req.body.password, curUser.password, (bcErr, isMatch) => {
+        if (bcErr) return console.error(bcErr);
 
-        if (res) {//if password matches database hash
+        if (isMatch) {//if password matches database hash
           req.session.user = {
             isAuthenticated: true,
             username: req.body.username,
@@ -159,30 +159,7 @@ exports.loginUser = (req, res) => {
 }
 
 exports.signup = (req, res) => {
-  res.render('signup', {
-    title: "Signup Page"
-  });
+    res.render('signup', {
+        title: "Signup Page"
+    });
 }
-
-exports.signupUser = (req, res) => {
-  res.render('signup', {
-    title: "Signup Page"
-  });
-}
-
-exports.admin = (req, res) => {
-  res.render('admin', {
-    title: "Admin"
-  });
-}
-
-exports.logout = (req, res) => {
-  req.session.destroy((err) => {
-    if (err) {
-      console.log(err);
-    } else {
-      res.redirect('/');
-    }
-  });
-}
-
