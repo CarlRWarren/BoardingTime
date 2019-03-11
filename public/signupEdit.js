@@ -22,9 +22,9 @@ if (!img.src) {
     hidsrc.value = Avatar;
 } else {
     src = img.src;
-    hexRegex = /[abcdef\d]{6}/;
+    hexRegex = /[A-Fa-f\d]{6}/;
     colorHex = src.match(hexRegex);
-    colorPicker.value = `#${colorHex[0]}`;
+    colorPicker.value = `#${colorHex}`;
 }
 
 var avatarUpdateColor = () =>{
