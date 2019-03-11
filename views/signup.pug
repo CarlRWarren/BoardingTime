@@ -6,13 +6,9 @@ block content
       form(id='form', method='post', action='/signup')
         div(class='one')
           h3 Infomation Entry
-          label First Name:
+          label Username:
           br
-          input(type='text', name='firstName')
-          br
-          label Last Name:
-          br
-          input(type='text', name='lastName')
+          input(type='text', name='username')
           br
           label Email:
           br
@@ -22,10 +18,6 @@ block content
           br
           input(type='text', name='age')
           br
-          label Username:
-          br
-          input(type='text', name='username')
-          br
           label Password:
           br
           input(type='password', name='pass')
@@ -34,7 +26,7 @@ block content
           input(type='submit', value='submit') 
         div(class='two')
           img(id='avatar',src='')
-          input(type='text', class="hidden", id="hiddenSrc")
+          input(type='text', class="hidden", id="hiddenSrc", name="avatarUrl")
           div 
             img(class='selectors', id='leftArrowButton', src='arrowLeft.png',onclick='avatarEyesUp()')
             label(class='AvatarText') Eyes
