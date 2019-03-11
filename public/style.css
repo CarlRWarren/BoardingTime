@@ -62,3 +62,7 @@ h3{
   .hidden {
     display: none;
   }
+
+  #graphCanvas {
+      background: #fff;
+  }
