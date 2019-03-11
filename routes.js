@@ -124,8 +124,9 @@ exports.editUser = (req, res) => {
   User.find((dbErr, users) => {
     if (dbErr) return console.error(dbErr);
 
-    user = users.find(u => u.id == req.session.user.id);
+    var user = users.find(u => u.id == req.session.user.id);
     console.log(user)
+    var oldUsername = user.username;
     editUserFromReqBody(user, req.body);
 
     if (users.some(u => (u.username === user.username && u.id != req.session.user.id))) {
@@ -138,24 +139,45 @@ exports.editUser = (req, res) => {
         edit: true
       });
     } else {
-      updateUserReferences(user, req);
-
-      if (req.body.password) {
-        bcrypt.hash(req.body.password, null, null, (bcErr, hash) => {
-          if (bcErr) return console.error(bcErr);
-          user.password = hash;
+      if (user.username != oldUsername) {
+        req.session.user.username = user.username;
+        updateUserReferences(user, oldUsername, () => {
+          if (req.body.password) {
+            bcrypt.hash(req.body.password, null, null, (bcErr, hash) => {
+              if (bcErr) return console.error(bcErr);
+              user.password = hash;
+              user.save((err, user) => {
+                if (err) return console.error(err);
+                console.log(user.username + " edited");
+              });
+              res.redirect("/");
+            });
+          } else {
+            user.save((err, user) => {
+              if (err) return console.error(err);
+              console.log(user.username + " edited");
+            });
+            res.redirect("/");
+          }
+        });
+      } else {
+        if (req.body.password) {
+          bcrypt.hash(req.body.password, null, null, (bcErr, hash) => {
+            if (bcErr) return console.error(bcErr);
+            user.password = hash;
+            user.save((err, user) => {
+              if (err) return console.error(err);
+              console.log(user.username + " edited");
+            });
+            res.redirect("/");
+          });
+        } else {
           user.save((err, user) => {
             if (err) return console.error(err);
             console.log(user.username + " edited");
           });
           res.redirect("/");
-        });
-      } else {
-        user.save((err, user) => {
-          if (err) return console.error(err);
-          console.log(user.username + " edited");
-        });
-        res.redirect("/");
+        }
       }
     }
 
@@ -163,20 +185,30 @@ exports.editUser = (req, res) => {
   });
 }
 
-updateUserReferences = (user, req, onFinished) => {
-  req.session.user.username = user.username;
-
+updateUserReferences = (user, oldUsername, onFinished, index = 0) => {
+  
   Message.find((dbErr, messages) => {
     if (dbErr) return console.error(dbErr);
+    
+    console.log(messages[index]);
+    console.log(index);
+    while (messages[index].username != oldUsername) {
+      index++;
+    }
 
-    // messages.forEach(m => {
-    //   m.username = user.username;
-    //   m.save((err, messages) => {
-    //     if (err) return console.error(err);
-    //   });
-    //   onFinished();
-    // });
+    if (index >= messages.length) {
+      onFinished();
+    }
 
+    messages[index].username = user.username;
+    messages[index].save((err, messages) => {
+      if (err) return console.error(err);
+      if (index < messages.length - 1) {
+        updateUserReferences(user, oldUsername, onFinished, index + 1);
+      } else {
+        onFinished();
+      }
+    });
   });
 }
 
