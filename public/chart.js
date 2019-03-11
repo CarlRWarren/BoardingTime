@@ -150,8 +150,8 @@ class BarGraph {
         let maxMessages = this.getUserWithMostPosts();
         let barYScale = this.barMaxHeight / maxMessages;
         let canvasWidth = this.barXoffset + (this.barWidth * this.users.length) + (this.barMargin * this.users.length) + this.barMargin;
-        this.graphCanvas.width = canvasWidth > 500 ? canvasWidth : 500;
-        this.graphCanvas.width = canvasWidth > 500 ? canvasWidth : 500;
+        this.graphCanvas.width = canvasWidth > 250 ? canvasWidth : 250;
+        this.graphCanvas.width = canvasWidth > 250 ? canvasWidth : 250;
         ctx.clearRect(0, 0, this.graphCanvas.width, this.graphCanvas.height);
         let barPosition = new Vector2(this.barMargin + this.barWidth / 2 + this.barXoffset, this.barMaxHeight + this.barMargin);
         let barScale = new Vector2(this.barWidth, barYScale);
@@ -199,10 +199,10 @@ class BarGraph {
         ctx.fillText(maxMessages / 2, lineStartX - (this.barXoffset * .2) - this.barMargin, (this.barMaxHeight + ctx.lineWidth + 10) / 2, this.barXoffset * .3);
         ctx.fillText(0, lineStartX - (this.barXoffset * .2) - this.barMargin, this.barMaxHeight + ctx.lineWidth + 10, this.barXoffset * .3);
         ctx.save();
-        ctx.translate(0, 500);
+        ctx.translate(0, this.graphCanvas.height);
         ctx.rotate(-Math.PI / 2);
         ctx.textAlign = "center";
-        ctx.fillText("Number of Posts Per User", ((2 * this.graphCanvas.height) - this.barMaxHeight) * .5, (this.barXoffset * .25));
+        ctx.fillText("Posts Per User", ((2 * this.graphCanvas.height) - this.barMaxHeight) * .5, (this.barXoffset * .25));
         ctx.restore();
     }
 
@@ -216,12 +216,24 @@ class BarGraph {
 
 //#region Graph Initialization and Drawing
 
-let graph = new BarGraph(ctx, graphCanvas, 40, 5, 420, 100);
+let graph = new BarGraph(ctx, graphCanvas, 40, 5, 220, 100);
 userList.users.forEach(user => {
     graph.addUser(new UserInfo(user.imgUrl, user.messageCount));
 });
 
 //#region TEST CODE
+// graph.addUser(new UserInfo("https://www.bing.com/th?id=OIP.eOa7NeLUCu7SuY19m1oA1QHaFj&w=263&h=197&c=7&o=5&pid=1.7", 3));
+// graph.addUser(new UserInfo("https://www.bing.com/th?id=OIP.eOa7NeLUCu7SuY19m1oA1QHaFj&w=263&h=197&c=7&o=5&pid=1.7", 3));
+// graph.addUser(new UserInfo("https://www.bing.com/th?id=OIP.eOa7NeLUCu7SuY19m1oA1QHaFj&w=263&h=197&c=7&o=5&pid=1.7", 3));
+// graph.addUser(new UserInfo("https://www.bing.com/th?id=OIP.eOa7NeLUCu7SuY19m1oA1QHaFj&w=263&h=197&c=7&o=5&pid=1.7", 3));
+// graph.addUser(new UserInfo("https://www.bing.com/th?id=OIP.eOa7NeLUCu7SuY19m1oA1QHaFj&w=263&h=197&c=7&o=5&pid=1.7", 3));
+// graph.addUser(new UserInfo("https://www.bing.com/th?id=OIP.eOa7NeLUCu7SuY19m1oA1QHaFj&w=263&h=197&c=7&o=5&pid=1.7", 3));
+// graph.addUser(new UserInfo("https://www.bing.com/th?id=OIP.eOa7NeLUCu7SuY19m1oA1QHaFj&w=263&h=197&c=7&o=5&pid=1.7", 3));
+// graph.addUser(new UserInfo("https://www.bing.com/th?id=OIP.eOa7NeLUCu7SuY19m1oA1QHaFj&w=263&h=197&c=7&o=5&pid=1.7", 3));
+// graph.addUser(new UserInfo("https://www.bing.com/th?id=OIP.eOa7NeLUCu7SuY19m1oA1QHaFj&w=263&h=197&c=7&o=5&pid=1.7", 3));
+// graph.addUser(new UserInfo("https://www.bing.com/th?id=OIP.eOa7NeLUCu7SuY19m1oA1QHaFj&w=263&h=197&c=7&o=5&pid=1.7", 3));
+// graph.addUser(new UserInfo("https://www.bing.com/th?id=OIP.eOa7NeLUCu7SuY19m1oA1QHaFj&w=263&h=197&c=7&o=5&pid=1.7", 3));
+// graph.addUser(new UserInfo("https://www.bing.com/th?id=OIP.eOa7NeLUCu7SuY19m1oA1QHaFj&w=263&h=197&c=7&o=5&pid=1.7", 3));
 // graph.addUser(new UserInfo("https://www.bing.com/th?id=OIP.eOa7NeLUCu7SuY19m1oA1QHaFj&w=263&h=197&c=7&o=5&pid=1.7", 3));
 // graph.addUser(new UserInfo("https://www.bing.com/th?id=OIP.eOa7NeLUCu7SuY19m1oA1QHaFj&w=263&h=197&c=7&o=5&pid=1.7", 3));
 // graph.addUser(new UserInfo("https://www.bing.com/th?id=OIP.eOa7NeLUCu7SuY19m1oA1QHaFj&w=263&h=197&c=7&o=5&pid=1.7", 3));
