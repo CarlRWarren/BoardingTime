@@ -241,19 +241,6 @@ exports.delete = (req, res) => {
   });
 };
 
-exports.details = (req, res) => {
-  User.findById(req.params.id, (dbErr, user) => {
-    if (dbErr) return console.error(dbErr);
-    res.render("details", {
-      title: "Person Details",
-      session: req.session,
-      config,
-      state: getStateFromSession(req.session),
-      user
-    });
-  });
-};
-
 exports.login = (req, res) => {
   res.render('login', {
     title: "Login Page",
