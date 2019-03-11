@@ -56,6 +56,8 @@ h3{
 
 .gridtable{
     text-align: center;
+    margin: 0 auto;
+    background: white;
 }
 
 #avatar{
@@ -126,15 +128,17 @@ nav a{
     min-height: 100px;
     margin: 0 auto;
     background: #575366;
+    text-align: center;
 }
 
 .adminBoard{
     text-align: center;
-    max-width: min-content;
     min-height: 100px;
     margin: 0 auto;
-    background: white;
     border:  1px solid black;
+    border-top: none;
+    padding: 5px;
+    width: auto;
 }
 
 th{
@@ -161,6 +165,7 @@ nav{
     background: #575366;
     margin: 0;
     padding: 5px;
+    border-bottom:  1px solid black;
 }
 ul{
     margin: 0;
