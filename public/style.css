@@ -65,7 +65,7 @@ h3{
 }
 
 nav li{
-    background: #feeafa;
+    background: #1a1423;
     width: 150px;
     display: inline-block;
     list-style: none;
@@ -76,19 +76,13 @@ nav li{
     border: 4px solid steelblue;
 }
 
-nav a:link{
-    color:steelblue;
+nav a{
+    color:#feeafa;
     text-decoration: none;
 }
 
-nav a:visited{
-    color: #9B1D20;
-}
 
-nav a:hover{
-    color: #9B1D20;
-}
-
-nav a:active{
-    color: #fff;
+#message{
+    background: #1a1423;
+    color: #feeafa;
 }
