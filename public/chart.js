@@ -1,6 +1,8 @@
 let graphCanvas = document.getElementById('graphCanvas')
 let ctx = graphCanvas.getContext('2d');
 
+console.log(userList);
+
 //#region Helper Functions
 
 const clamp = (value, max, min) => {
@@ -217,7 +219,7 @@ class BarGraph {
 //#region Graph Initialization and Drawing
 
 let graph = new BarGraph(ctx, graphCanvas, 40, 5, 220, 100);
-userList.users.forEach(user => {
+userList.forEach(user => {
     graph.addUser(new UserInfo(user.imgUrl, user.messageCount));
 });
 
