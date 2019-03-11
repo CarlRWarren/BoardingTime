@@ -2,6 +2,8 @@
 div(id="message")
     div(class="userBox")
         img(class='messageImg',src=item.avatarurl)
+        p=item.username
+        p=(item.time.getMonth()+1)+'/'+item.time.getDate()+'/'+item.time.getFullYear()
     div(class="messageBox")
         p=item.message
         if session.user && ((item.username == session.user.username) || session.user.isAdmin)
