@@ -14,8 +14,25 @@ const checkAuth = (req, res, next) => {
     res.redirect('/');
   }
 }
+
 const checkAdmin = (req, res, next) => {
   if(req.session.user && req.session.user.isAuthenticated && req.session.user.isAdmin){
+    next();
+  }else{
+    res.redirect('/');
+  }
+}
+
+const checkNotAuth = (req, res, next) => {
+  if(!req.session.user){
+    next();
+  }else{
+    res.redirect('/');
+  }
+}
+
+const checkAuthNotAdmin = (req, res, next) => {
+  if(req.session.user && req.session.user.isAuthenticated && !req.session.user.isAdmin){
     next();
   }else{
     res.redirect('/');
@@ -40,21 +57,21 @@ app.get('/', routes.index);
 
 app.post('/postmessage', urlencodedParser, checkAuth, routes.postMessage);
 
-app.get('/login', routes.login);
-app.post('/login', urlencodedParser, routes.loginUser);
+app.get('/login', checkNotAuth, routes.login);
+app.post('/login', urlencodedParser, checkNotAuth, routes.loginUser);
 
-app.get('/signup', routes.signup);
-app.post('/signup', urlencodedParser, routes.signupUser);
+app.get('/signup', checkNotAuth, routes.signup);
+app.post('/signup', urlencodedParser, checkNotAuth, routes.signupUser);
+
 app.get('/logout', checkAuth, routes.logout);
 
 app.get('/admin', checkAdmin, routes.admin);
 
-app.get('/edit', routes.edit);
-app.post('/edit', urlencodedParser, routes.editUser);
+app.get('/edit', checkAuth, routes.edit);
+app.post('/edit', checkAuth, urlencodedParser, routes.editUser);
 
-app.get('/edit/:id', routes.edit);
-app.post('/edit/:id', urlencodedParser, routes.editUser);
-
+app.get('/delete', checkAuth, routes.delete);
+// app.get('/delete/:id', checkAdmin, routes.delete);
 app.get('/delete/:id', routes.delete);
 
 app.get('/details/:id', routes.details);

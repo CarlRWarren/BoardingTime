@@ -36,6 +36,7 @@ editUserFromReqBody = (user, body) => {
   user.email = body.email || user.email;
   user.age = body.age || user.age;
   user.avatarurl = body.avatarurl || user.avatarurl;
+  console.log("avatarurl edited to " + body.avatarurl);
   user.role = body.role || user.role;
 }
 
@@ -86,11 +87,7 @@ exports.postMessage = (req, res) => {
 }
 
 exports.edit = (req, res) => {
-  var id = req.params.id;
-  if (!id) {
-    id = req.session.user.id;
-  }
-  User.findById(id, (dbErr, user) => {
+  User.findById(req.session.user.id, (dbErr, user) => {
     if (dbErr) return console.error(dbErr);
 
     res.render("signupEdit", {
@@ -104,12 +101,7 @@ exports.edit = (req, res) => {
 };
 
 exports.editUser = (req, res) => {
-  var id = req.params.id;
-  if (!id) {
-    id = req.session.user.id;
-  }
-  
-  User.findById(id, (dbErr, user) => {
+  User.findById(req.session.user.id, (dbErr, user) => {
     if (dbErr) return console.error(dbErr);
 
     editUserFromReqBody(user, req.body);
@@ -135,7 +127,11 @@ exports.editUser = (req, res) => {
 };
 
 exports.delete = (req, res) => {
-  User.findByIdAndDelete(req.params.id, (dbErr, user) => {
+  var id = req.params.id;
+  if (!id) {
+    id = req.session.user.id;
+  }
+  User.findByIdAndDelete(id, (dbErr, user) => {
     if (dbErr) return console.error(dbErr);
     console.log(user.username + " deleted");
 
