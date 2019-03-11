@@ -1,10 +1,26 @@
 //- item
-div(id="message")
-    div(class="userBox")
-        img(class='messageImg',src=item.avatarurl)
-    div(class="messageBox")
-        p=item.message
-        if session.user && ((item.username == session.user.username) || session.user.isAdmin)
-            a(href="/deletemessage/"+item.id)
-               button
-                 text="Delete"
+if (!item.editing)
+    div(id="message")
+        div(class="userBox")
+            img(class='messageImg',src=item.avatarurl)
+        div(class="messageBox")
+            p=item.message
+            if session.user && ((item.username == session.user.username) || session.user.isAdmin)
+                a(href="/deletemessage/"+item.id)
+                    button
+                        text="Delete"
+                a(href="/editmessage/"+item.id)
+                    button
+                        text="Edit"
+else
+    //form here
+    div(id="messageEdit")
+        div(class="userBox")
+            img(class='messageImg',src=item.avatarurl)
+        div(class="messageBox")
+            p a thing has changed
+            p=item.message
+            if session.user && ((item.username == session.user.username) || session.user.isAdmin)
+                a(href="/deletemessage/"+item.id)
+                    button
+                        text="Delete"

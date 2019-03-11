@@ -57,7 +57,9 @@ app.get('/', routes.index);
 
 app.post('/postmessage', urlencodedParser, checkAuth, routes.postMessage);
 app.get('/deletemessage/:id', urlencodedParser, checkAuth, routes.deleteMessage);
-app.post('/editmessage/:id', urlencodedParser, checkAuth, routes.editMessage);
+
+app.get('/editmessage/:id', checkAuth, routes.editMessage);
+app.post('/editmessage/:id', urlencodedParser, checkAuth, routes.editMessagePost);
 
 app.get('/login', checkNotAuth, routes.login);
 app.post('/login', urlencodedParser, checkNotAuth, routes.loginUser);

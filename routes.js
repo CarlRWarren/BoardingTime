@@ -89,6 +89,9 @@ exports.index = (req, res) => {
       messages.forEach(m => {
         user = users.find(u => u.username == m.username);
         m.avatarurl = user.avatarurl;
+        if (m.id == req.editingMessageId) {
+          m.editing = true;
+        }
       });
 
       var graphData = [];
@@ -122,18 +125,22 @@ exports.index = (req, res) => {
 };
 
 exports.postMessage = (req, res) => {
-  var message = new Message({
-    username: req.session.user.username,
-    message: req.body.message,
-    time: new Date()
-  });
+  if (!req.body.message) {
+    res.redirect('/');
 
-  message.save((err, message) => {
-    if (err) return console.error(err);
-    console.log(message.username + " posted " + message.message);
-  });
+  } else {
+    var message = new Message({
+      username: req.session.user.username,
+      message: req.body.message,
+      time: new Date()
+    });
 
-  res.redirect('/');
+    message.save((err, message) => {
+      if (err) return console.error(err);
+      console.log(message.username + " posted " + message.message);
+      res.redirect('/');
+    });
+  }
 }
 
 exports.deleteMessage = (req, res) => {
@@ -159,6 +166,19 @@ exports.editMessage = (req, res) => {
     if (dbErr) return console.error(dbErr);
 
     if (message.username == req.session.user.username || req.session.user.isAdmin) {
+      req.editingMessageId = message.id;
+      exports.index(req, res);
+    } else {
+      res.redirect("/");
+    }
+  });
+}
+
+exports.editMessagePost = (req, res) => {
+  Message.findById(req.params.id, (dbErr, message) => {
+    if (dbErr) return console.error(dbErr);
+
+    if (message.username == req.session.user.username || req.session.user.isAdmin) {
       message.message = req.body.message;
       message.time = new Date();
 
@@ -166,7 +186,7 @@ exports.editMessage = (req, res) => {
         if (err) return console.error(err);
         console.log(message.username + " edited " + message.message);
       });
-      
+
     } else {
       res.redirect("/");
     }
