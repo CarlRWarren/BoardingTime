@@ -2,20 +2,20 @@ extends layout
 
 block content
   div(class = 'signupF')
-    div(class='one')
-      h3 Infomation Entry
-      form(id='form', method='post', action='/')
-        label First Name:
-        br
-        input(type='text', name='firstName')
-        br
-        label Last Name:
-        br
-        input(type='text', name='lastName')
-        br
+    form(id='form', method='post', action='/signup')
+      div(class='one')
+        h3 Infomation Entry
         label Username:
         br
         input(type='text', name='username')
+        br
+        label Email:
+        br
+        input(type='text', name='email')
+        br
+        label Age:
+        br
+        input(type='text', name='age')
         br
         label Password:
         br
@@ -23,5 +23,32 @@ block content
         br
         br
         input(type='submit', value='submit') 
-    div(class='two') 
-      img(id='avatar',src='https://api.adorable.io/avatars/face/eyes1/nose2/mouth4/DEADBF/300')
+      div(class='two')
+        img(id='avatar',src='')
+        input(type='text', class="hidden", id="hiddenSrc", name="avaterUrl")
+        div 
+          img(class='selectors', id='leftArrowButton', src='arrowLeft.png',onclick='avatarEyesUp()')
+          label(class='AvatarText') Eyes
+          img(class='selectors', id='rightArrowButton', src='arrowRight.png',onclick='avatarEyesDown()')
+        div
+          img(class='selectors', id='leftArrowButtonNose', src='arrowLeft.png',onclick='avatarNoseUp()')
+          label(class='AvatarText') Nose
+          img(class='selectors', id='rightArrowButtonNose', src='arrowRight.png',onclick='avatarNoseDown()')
+        div
+          img(class='selectors', id='leftArrowButtonNose', src='arrowLeft.png',onclick='avatarMouthUp()')
+          label(class='AvatarText') Mouth
+          img(class='selectors', id='rightArrowButtonNose', src='arrowRight.png',onclick='avatarMouthDown()')
+        div
+          br       
+          label(class='AvatarText') Color
+        div
+          br
+          input(type='color',id='colorPicker',oninput='avatarUpdateColor()',value="#DEADBF")
+  script(src='script.js')
+
+  //- username
+  //- email
+  //- age
+  //- pass
+  //- src
+  
