@@ -3,13 +3,20 @@ block content
   div(class="loginDiv")
     h3 Name Entry
     h4(class="warning")=failedMessage
-    form(id='formLogin', method='post', action='/login', class="loginF")
-      label Username:
-      br
-      input(type='text', name='username')
-      br
-      label Password:
-      br
-      input(type='password', name='password')
-      br
-      input(type='submit', value='submit')
+    div(class="messageBoard")
+      form(id='formLogin', method='post', action='/login', class="loginF")
+        div(class="containerForm")
+          div(class="formSpacer")
+          label(class="formLabel") Username:
+          input(class="formInput" type='text', name='username')
+          div(class="formSpacer")
+        div(class="containerForm")
+          div(class="formSpacer")
+          label(class="formLabel") Password:
+          input(class="formInput" type='password', name='password')
+          div(class="formSpacer")
+        div(class="containerForm")
+          div(class="formSpacer")
+          div(class="formLabel")
+          input(class="formInput" id="loginBtn" type='submit', value='Login')
+          div(class="formSpacer")

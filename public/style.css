@@ -1,5 +1,7 @@
 html{
     background: #435058;
+    font-family: 'Cute Font', cursive;
+    font-size: 16px;
 }
 .loginDiv{
     text-align: center;
@@ -110,16 +112,36 @@ nav a{
 #message{
     display: flex;
     flex-direction: row;
-    background: #1a1423;
+    box-shadow: 5px 5px 8px 3px #000;
+    
     color: #feeafa;
+    margin: 15px;
 }
 
 .userBox{
+    background: #1a1423;
     flex: 1;
+    border-radius: 5px;
+    padding: 5px;
+    border: 4px solid steelblue;
+}
+
+.userBox img {
+    border-radius: 10px;
+}
+
+.userBox p {
+    padding: 5px;
+    margin: 0;
 }
 
 .messageBox{
     flex: 4;
+    background: #1a1423;
+    border-radius: 5px;
+    border: 4px solid steelblue;
+    border-left: none;
+    /* margin-left: 5px; */
 }
 
 .messageBoard{
@@ -127,8 +149,11 @@ nav a{
     min-width: 55%;
     min-height: 100px;
     margin: 0 auto;
+    padding: 5px;
     background: #575366;
     text-align: center;
+    border:  1px solid black;
+    border-top: none;
 }
 
 .adminBoard{
@@ -180,4 +205,30 @@ body{
     max-width: 55%;
     min-width: 55%;
     overflow-x: auto;
+}
+
+.formLabel {
+    flex: 1;
+    text-align: right;
+    margin-right: 5px;
+}
+
+.formSpacer {
+    flex: 2;
+}
+
+.formInput {
+    flex: 2;
+}
+
+#formLogin {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.containerForm {
+    display: flex;
+    flex-direction: row;
+    max-width: 100%;
 }

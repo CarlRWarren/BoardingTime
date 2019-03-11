@@ -11,6 +11,7 @@ if (!item.editing)
                 a(href="/deletemessage/"+item.id)
                     button
                         text="Delete"
+            if session.user && (item.username == session.user.username)
                 a(href="/editmessage/"+item.id)
                     button
                         text="Edit"
@@ -20,10 +21,9 @@ else
         div(class="userBox")
             img(class='messageImg',src=item.avatarurl)
         div(class="messageBox")
-            p a thing has changed
-            p=item.message
-            if session.user && ((item.username == session.user.username) || session.user.isAdmin)
-                a(href="/deletemessage/"+item.id)
-                    button
-                        text="Delete"
-
+           form(id='messageForm', method='post', action='/editmessage/'+item.id, class="message")
+                label Message:
+                br
+                input(type='text', name='message')
+                br
+                input(type='submit', value='submit')

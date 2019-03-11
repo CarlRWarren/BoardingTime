@@ -6,12 +6,12 @@ block content
             include partials/message.pug
 
         if loggedin
-            form(id='form', method='post', action='/postmessage', class="message")
-                label Message:
+            form(id='messageForm', method='post', action='/postmessage', class="message")
+                label New Message:
                 br
                 input(type='text', name='message')
                 br
-                input(type='submit', value='submit')
+                input(type='submit', value='Add Message')
     //-bar graph
     div(id="canvasDiv")
         canvas#graphCanvas(width='250', height='280')

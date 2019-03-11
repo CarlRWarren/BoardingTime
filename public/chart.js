@@ -143,7 +143,10 @@ class BarGraph {
 
     addUser(user) {
         this.users.push(user);
-        this.graphBars.push(new GraphBar(user.messageCount, new Color(0, 255, 0)));
+        let url = user.imgUrl;
+        var hexRegex = /[A-Fa-f\d]{6}/;
+        var hexColor = url.match(hexRegex)[0];
+        this.graphBars.push(new GraphBar(user.messageCount, colorFromHex(hexColor)));
     }
 
     //#region Draw Functions

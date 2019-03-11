@@ -64,7 +64,7 @@ User.find((dbErr, users) => {
   if (!users.some(u => u.role === "admin")) {
     bcrypt.hash("pass", null, null, (bcErr, hash) => {
       if (bcErr) return console.error(bcErr);
-      user = new User({
+      let user = new User({
         username: "admin",
         avatarurl: "https://api.adorable.io/avatars/face/eyes2/nose2/mouth7/ff0000/300",
         role: "admin",
@@ -87,7 +87,7 @@ exports.index = (req, res) => {
       if (err) return console.error(err);
 
       messages.forEach(m => {
-        user = users.find(u => u.username == m.username);
+        let user = users.find(u => u.username == m.username);
         m.avatarurl = user.avatarurl;
         if (m.id == req.editingMessageId) {
           m.editing = true;
@@ -165,7 +165,7 @@ exports.editMessage = (req, res) => {
   Message.findById(req.params.id, (dbErr, message) => {
     if (dbErr) return console.error(dbErr);
 
-    if (message.username == req.session.user.username || req.session.user.isAdmin) {
+    if (message.username == req.session.user.username) {
       req.editingMessageId = message.id;
       exports.index(req, res);
     } else {
@@ -178,13 +178,14 @@ exports.editMessagePost = (req, res) => {
   Message.findById(req.params.id, (dbErr, message) => {
     if (dbErr) return console.error(dbErr);
 
-    if (message.username == req.session.user.username || req.session.user.isAdmin) {
+    if (message.username == req.session.user.username) {
       message.message = req.body.message;
       message.time = new Date();
 
       message.save((err, message) => {
         if (err) return console.error(err);
         console.log(message.username + " edited " + message.message);
+        res.redirect("/");
       });
 
     } else {
@@ -211,7 +212,7 @@ exports.editUser = (req, res) => {
   User.find((dbErr, users) => {
     if (dbErr) return console.error(dbErr);
 
-    var user = users.find(u => u.id == req.session.user.id);
+    let user = users.find(u => u.id == req.session.user.id);
     console.log(user)
     var oldUsername = user.username;
     editUserFromReqBody(user, req.body);
