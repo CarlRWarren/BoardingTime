@@ -1,8 +1,9 @@
 extends layout
 
 block content
-    each item in messages
-        include partials/message.pug
+    div(class="messageBoard")
+        each item in messages
+            include partials/message.pug
 
     if loggedin
         form(id='form', method='post', action='/postmessage', class="message")
