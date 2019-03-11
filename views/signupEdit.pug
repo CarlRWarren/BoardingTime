@@ -3,7 +3,7 @@ extends layout
 block content
   div(class='container')
     div(class = 'signupF')
-      form(id='form', method='post', action=edit?"/edit/"+user.id:"/signup")
+      form(id='form', method='post', action=edit?"/edit":"/signup")
         div(class='one')
           h3(id='h3Info') Infomation Entry
           label Username:
@@ -26,7 +26,7 @@ block content
           input(type='submit', value='submit') 
         div(class='two')
           img(id='avatar',src=user&&user.avatarurl)
-          input(type='text', class="hidden", id="hiddenSrc", name="avatarUrl", value=user&&user.avatarurl)
+          input(type='text', class="hidden", id="hiddenSrc", name="avatarurl", value=user&&user.avatarurl)
           div 
             img(class='selectors', id='leftArrowButton', src='/arrowLeft.png',onclick='avatarEyesUp()')
             label(class='AvatarText') Eyes
