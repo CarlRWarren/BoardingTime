@@ -5,7 +5,6 @@ block content
         div(class='adminBoard')
             table(class="gridtable")
                 tr
-                    th ID
                     th User Name
                     th Avatar Url
                     th Role
@@ -14,8 +13,6 @@ block content
                     th
                 each item in users
                     tr
-                        td 
-                            a(href="/details/" + item.id) #{item.id}
                         include partials/head.pug
                         td 
                             a(href="/delete/" + item.id) Delete

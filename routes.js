@@ -308,7 +308,7 @@ exports.delete = (req, res) => {
     if (dbErr) return console.error(dbErr);
     console.log(user.username + " deleted");
 
-    res.redirect("/");
+    res.redirect("/admin");
   });
 };
 
