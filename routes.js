@@ -88,9 +88,11 @@ exports.index = (req, res) => {
 
       messages.forEach(m => {
         let user = users.find(u => u.username == m.username);
-        m.avatarurl = user.avatarurl;
-        if (m.id == req.editingMessageId) {
-          m.editing = true;
+        if (user) {
+          m.avatarurl = user.avatarurl;
+          if (m.id == req.editingMessageId) {
+            m.editing = true;
+          }
         }
       });
 
