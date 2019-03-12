@@ -16,32 +16,32 @@ block content
           br
           label Age:
           br
-          input(type='text', name='age', value=user&&user.age)
+          input(type='number', min=0, max=150, name='age', value=user&&user.age)
           br
           label Password:
           br
           input(type='password', name='password')
           br
           br
-          input(type='submit', value='submit') 
+          div(class="save-register")
+              button(type='submit')=edit?'Save':'Register'
         div(class='two')
           img(id='avatar',src=user&&user.avatarurl)
           input(type='text', class="hidden", id="hiddenSrc", name="avatarurl", value=user&&user.avatarurl)
-          div 
-            img(class='selectors', src='/arrowLeft.png',onclick='avatarEyesUp()')
-            label(class='AvatarText') Eyes
-            img(class='selectors', src='/arrowRight.png',onclick='avatarEyesDown()')
-          div
-            img(class='selectors', src='/arrowLeft.png',onclick='avatarNoseUp()')
-            label(class='AvatarText') Nose
-            img(class='selectors', src='/arrowRight.png',onclick='avatarNoseDown()')
-          div
-            img(class='selectors', src='/arrowLeft.png',onclick='avatarMouthUp()')
-            label(class='AvatarText') Mouth
-            img(class='selectors', src='/arrowRight.png',onclick='avatarMouthDown()')
-          div
-            br       
-            label(class='AvatarText') Color
-          div
-            input(type='color',id='colorPicker',oninput='avatarUpdateColor()',value="#DEADBF")
+          div(class="avatarText")
+            label(class="left", onclick='avatarEyesUp()', type="button")="<"
+            div Eyes
+            label(class="right", onclick='avatarEyesDown()', type="button")=">"
+          div(class="avatarText")
+            label(class="left", onclick='avatarEyesUp()', type="button")="<"
+            div Nose
+            label(class="right", onclick='avatarNoseDown()', type="button")=">"
+          div(class="avatarText")
+            label(class="left", onclick='avatarMouthUp()', type="button")="<"
+            div Mouth
+            label(class="right", onclick='avatarMouthDown()', type="button")=">" 
+          div(class="avatarText")
+            div Color:&nbsp;
+            input(class="formInput" type='color',id='colorPicker',oninput='avatarUpdateColor()',value="#DEADBF")
+
   script(src='/signupEdit.js')

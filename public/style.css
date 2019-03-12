@@ -1,7 +1,7 @@
 html{
     background: #435058;
-    font-family: 'Cute Font', cursive;
-    font-size: 16px;
+    font-family: 'Concert One', cursive;
+    font-size: 18px;
 }
 .loginDiv{
     text-align: center;
@@ -23,23 +23,32 @@ html{
     text-align: center;
 }
 
-.signupF{
-    min-width: 55%;
-    max-width: 55%;
-    text-align: center;
-    background: #575366;
-    margin: auto;
-    display: flex;
-    height: 100%;
-    flex-direction: row;
-    flex-wrap: wrap;
-}
-
 .one {
     /* display: inline-block; */
     flex: 1;
     padding: 50px;
 
+}
+
+textarea,
+input:not([type="submit"]):not([type="color"]) {
+    width: 100%;
+    border-radius: 5px;
+    border: none;
+    padding: 5px 0;
+    margin: 5px 0;
+    box-shadow: 3px 3px 4px 0px #444;
+    text-align: center;
+}
+
+textarea {
+    box-shadow: 3px 3px 4px 0px #888;
+    text-align: left;
+    padding: 5px;
+}
+
+.one label {
+    margin: auto;
 }
   
 .two { 
@@ -63,7 +72,7 @@ h3{
 }
 
 #avatar{
-    border: 2px solid #9B1D20;
+    border: 2px solid #1a1423;
     border-radius: 10px;
     padding: 5px;
     width: 200px;
@@ -79,12 +88,83 @@ h3{
     width: 60px;
 }
 
-.AvatarText{
-    position: relative;
+.navbarImg {
+    padding: 2.5px;
+    height: 40px;
+    width: 40px;
+    margin: 0;
+}
+
+.avatarText {
+    width: 50%;
+    margin: 5px auto;
+    display: flex;
+    justify-content: space-between;
     color: white;
-    height: 30px;
-    width: 30px;
-    bottom: 10px;
+    padding: 5px;
+    background: #1a1423;
+    border-radius: 5px;
+}
+
+.avatarText {
+    width: 50%;
+    margin: 5px auto;
+    display: flex;
+    justify-content: space-between;
+    color: white;
+    padding: 5px;
+    background: #1a1423;
+    border-radius: 5px;
+}
+
+button,
+.avatarText label {
+    padding: 5px;
+    background: #575366;
+    border-radius: 5px;
+    color: white;
+    border: none;
+}
+
+button:hover,
+.avatarText label:hover {
+    background: #757281;
+}
+
+button:active,
+.avatarText label:active {
+    background: #A3A1AB;
+}
+
+.save-register,
+.login {
+    padding: 5px;
+    background: #1a1423;
+    border-radius: 10px;
+}
+
+.save-register button,
+.login button {
+    font-size: 16px;
+}
+
+button {
+    margin: 0 5px;
+    font: unset;
+}
+
+textarea,
+input {
+    font: unset;
+}
+
+.avatarText div {
+    margin: auto;
+}
+
+.avatarText input[type="color"] {
+    border:none;
+    background: #1a1423;
 }
 
 .hidden {
@@ -97,10 +177,21 @@ nav li{
     display: inline-block;
     list-style: none;
     padding: 5px;
-    margin: 2px;
+    margin: 2px 5px;
     text-align: center;
     border-radius: 5px;
     border: 4px solid steelblue;
+    box-shadow: 3px 3px 4px 0px #000;
+    transition: box-shadow .25s ease-in-out, border .05s ease-in-out, background-color .05s ease-in-out;
+}
+
+nav li:hover{
+    box-shadow: 3px 3px 4px 0px turquoise;
+}
+
+nav li:active{
+    border: 4px solid turquoise;
+    background-color: #2E2937;
 }
 
 nav a{
@@ -109,21 +200,49 @@ nav a{
 }
 
 
-#message{
+.message{
+    box-shadow: 4px 4px 5px 1px #000;
     display: flex;
     flex-direction: row;
-    box-shadow: 5px 5px 8px 3px #000;
-    
     color: #feeafa;
     margin: 15px;
+    background: #1a1423;
+    border: 4px solid steelblue;
+    border-radius: 5px;
+    border-top: none;
+}
+
+.message.left {
+    border-left: none;
+
+}
+
+.message.right {
+    border-right: none;
+
 }
 
 .userBox{
-    background: #1a1423;
-    flex: 1;
+    /* background: #1a1423;
+    border: 4px solid steelblue; */
+    margin: auto;    
+    padding: 5px 20px;
+}
+
+.message .left {
+    border-left: 4px solid steelblue;
+    height: auto;
+    margin: 15px;
+    margin-right: 0;  
     border-radius: 5px;
-    padding: 5px;
-    border: 4px solid steelblue;
+}
+
+.message .right {
+    border-right: 4px solid steelblue;
+    height: auto;    
+    margin: 15px;
+    margin-left: 0;  
+    border-radius: 5px;
 }
 
 .userBox img {
@@ -136,14 +255,16 @@ nav a{
 }
 
 .messageBox{
+    position: relative;
     flex: 4;
-    background: #1a1423;
+    /* background: #1a1423;
+    border: 4px solid steelblue; */
     border-radius: 5px;
-    border: 4px solid steelblue;
-    border-left: none;
+    padding: 10px;
     /* margin-left: 5px; */
 }
 
+.signupF,
 .messageBoard{
     max-width: 55%;
     min-width: 55%;
@@ -154,6 +275,38 @@ nav a{
     text-align: center;
     border:  1px solid black;
     border-top: none;
+    border-radius: 0 0 10px 10px;
+    box-shadow: 3px 3px 4px 0px #000;
+
+}
+
+
+.messageHeader {
+    margin-top: -5px;
+    margin-bottom: 5px;
+}
+
+.messageHeader hr {
+    clear: both
+}
+
+.messageEdit {
+    width: 100%;
+    resize: none;
+}
+
+.editDelete {
+    float: right;
+    margin-bottom: 5px;
+}
+
+.userTime {
+    float: left;
+    margin-bottom: 5px;
+}
+
+.userTime div {
+    display: inline-block;
 }
 
 .adminBoard{
@@ -191,7 +344,9 @@ nav{
     margin: 0;
     padding: 5px;
     border-bottom:  1px solid black;
+    box-shadow: 3px 3px 4px 0px #000;
 }
+
 ul{
     margin: 0;
     padding: 0;
@@ -213,12 +368,31 @@ body{
     margin-right: 5px;
 }
 
-.formSpacer {
+.formSpacer1 {
+    flex: 2;
+}
+
+.formSpacer2 {
+    flex: 3;
+}
+
+.formSpacer3 {
+    flex: 2;
+}
+
+.formInputSpacer {
     flex: 2;
 }
 
 .formInput {
     flex: 2;
+}
+
+#loginBtn {
+    margin-top: 10px;
+    min-width: 100px;
+    margin-bottom: 10px;
+    padding: 10px;
 }
 
 #formLogin {
@@ -231,4 +405,41 @@ body{
     display: flex;
     flex-direction: row;
     max-width: 100%;
+    margin: 5px 0;
+}
+
+.containerForm label {
+    margin: auto;
+    padding: 5px;
+    background: #575366;
+    border-radius: 5px;
+}
+
+.messageText {
+    margin: 0;
+    text-align: left;
+    word-break: break-all;
+    height: 100%;
+    width: 100%;
+}
+
+#loginTitle {
+    margin: 5px auto;
+}
+
+#navDiv {
+    display: flex;
+    flex-direction: row;
+}
+#navImg {
+    flex:1;
+    background: #1a1423;
+    padding: 2.5px;
+    margin: 0;
+    max-width: 45px;
+    max-height: 45px;
+}
+
+#navUl {
+    flex: 10;
 }

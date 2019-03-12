@@ -40,7 +40,7 @@ var Avatar = `https://api.adorable.io/avatars/face/${eyes}/${nose}/${mouth}/${co
 img.src = Avatar;
 hidsrc.value = Avatar;
 
-var avatarUpdateColor = () => {
+const avatarUpdateColor = () => {
     color = colorPicker.value;
     color = color.replace('#', "");
     Avatar = `https://api.adorable.io/avatars/face/${eyes}/${nose}/${mouth}/${color}/300`;
@@ -48,7 +48,7 @@ var avatarUpdateColor = () => {
     hidsrc.value = Avatar;
 }
 
-var avatarEyesUp = () => {
+const avatarEyesUp = () => {
     eyesIndex++;
     if (eyesIndex > eyesList.length - 1) {
         eyesIndex = 0;
@@ -60,7 +60,7 @@ var avatarEyesUp = () => {
     hidsrc.value = Avatar;
 }
 
-var avatarEyesDown = () => {
+const avatarEyesDown = () => {
     eyesIndex--;
     if (eyesIndex < 0) {
         eyesIndex = eyesList.length - 1;
@@ -71,7 +71,7 @@ var avatarEyesDown = () => {
     hidsrc.value = Avatar;
 }
 
-var avatarNoseUp = () => {
+const avatarNoseUp = () => {
     noseIndex++;
     if (noseIndex > noseList.length - 1) {
         noseIndex = 0;
@@ -82,7 +82,7 @@ var avatarNoseUp = () => {
     hidsrc.value = Avatar;
 }
 
-var avatarNoseDown = () => {
+const avatarNoseDown = () => {
     noseIndex--;
     if (noseIndex < 0) {
         noseIndex = noseList.length - 1;
@@ -93,7 +93,7 @@ var avatarNoseDown = () => {
     hidsrc.value = Avatar;
 }
 
-var avatarMouthUp = () => {
+const avatarMouthUp = () => {
     mouthIndex++;
     if (mouthIndex > mouthList.length - 1) {
         mouthIndex = 0;
@@ -104,7 +104,7 @@ var avatarMouthUp = () => {
     hidsrc.value = Avatar;
 }
 
-var avatarMouthDown = () => {
+const avatarMouthDown = () => {
     mouthIndex--;
     if (mouthIndex < 0) {
         mouthIndex = mouthList.length - 1;
@@ -115,6 +115,6 @@ var avatarMouthDown = () => {
     hidsrc.value = Avatar;
 }
 
-var setAvatarSrc = (src) => {
+const setAvatarSrc = (src) => {
     hidsrc.value = Avatar;
 }

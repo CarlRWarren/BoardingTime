@@ -1,29 +1,51 @@
 //- item
+- var owns = (session.user && (item.username == session.user.username))
+- var admin = (session.user && session.user.isAdmin)
 if (!item.editing)
-    div(id="message")
-        div(class="userBox")
-            img(class='messageImg',src=item.avatarurl)
-            p=item.username
-            p=(item.time.getMonth()+1)+'/'+item.time.getDate()+'/'+item.time.getFullYear()
+    div(class="message "+(owns?"left":"right"))
+        if (!owns)
+            div(class="userBox")
+                img(class='messageImg',src=item.avatarurl)
+            div(class="right")
         div(class="messageBox")
-            p=item.message
-            if session.user && ((item.username == session.user.username) || session.user.isAdmin)
-                a(href="/deletemessage/"+item.id)
-                    button
-                        text="Delete"
-            if session.user && (item.username == session.user.username)
-                a(href="/editmessage/"+item.id)
-                    button
-                        text="Edit"
+            div(class="messageHeader")
+                div(class="userTime")
+                    div=item.username
+                    div &nbsp;on&nbsp;
+                    div=(item.time.getMonth()+1)+'/'+item.time.getDate()+'/'+item.time.getFullYear()
+                if owns || admin
+                    div(class="editDelete")
+                        if owns
+                            a(href="/editmessage/"+item.id)
+                                button
+                                    text="Edit"
+                        if owns || admin
+                            a(href="/deletemessage/"+item.id)
+                                button
+                                    text="Delete"
+                hr
+            p(class="messageText")=item.message
+        if (owns)
+            div(class="left")
+            div(class="userBox")
+                img(class='messageImg',src=item.avatarurl)
 else
     //form here
-    div(id="messageEdit")
-        div(class="userBox")
-            img(class='messageImg',src=item.avatarurl)
-        div(class="messageBox")
-           form(id='messageForm', method='post', action='/editmessage/'+item.id, class="message")
-                label Message:
-                br
-                input(type='text', name='message')
-                br
-                input(type='submit', value='submit')
+    form(id='messageForm', method='post', action='/editmessage/'+item.id)
+        div(class="message left")
+            div(class="messageBox")
+                div(class="messageHeader")
+                    div(class="userTime")
+                        div=item.username
+                        div &nbsp;on&nbsp;
+                        div=(item.time.getMonth()+1)+'/'+item.time.getDate()+'/'+item.time.getFullYear()
+                    div(class="editDelete")
+                        button(type='submit')="Save"
+                        a(href="/")
+                            button
+                                text="Cancel"
+                    hr
+                textarea(class="messageEdit", rows=5, name='message')=item.message
+            div(class="left")
+            div(class="userBox")
+                img(class='messageImg',src=item.avatarurl)

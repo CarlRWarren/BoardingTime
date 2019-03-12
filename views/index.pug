@@ -6,12 +6,22 @@ block content
             include partials/message.pug
 
         if loggedin
-            form(id='messageForm', method='post', action='/postmessage', class="message")
-                label New Message:
-                br
-                input(type='text', name='message')
-                br
-                input(type='submit', value='Add Message')
+            form(id='messageForm', method='post', action='/postmessage')
+                div(class="message left")
+                    div(class="messageBox")
+                        div(class="messageHeader")
+                            div(class="userTime")
+                                div New Message:
+                            div(class="editDelete")
+                                button(type='submit')="Post"
+                                a(href="/")
+                                    button(type="button")
+                                        text="Clear"
+                            hr
+                        textarea(class="messageEdit", rows=5, name='message')
+                    div(class="left")
+                    div(class="userBox")
+                        img(class='messageImg',src=session.user.avatarurl)
     //-bar graph
     div(id="canvasDiv")
         canvas#graphCanvas(width='250', height='280')

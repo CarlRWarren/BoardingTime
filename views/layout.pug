@@ -2,20 +2,25 @@ doctype html
 html
     head
         link(rel="stylesheet", href="/style.css")
+        link(href="https://fonts.googleapis.com/css?family=Concert+One",rel="stylesheet")
         title #{title}
     body
         nav
             div(class="navBar")
-                ul
-                    if state=="logged out"
-                        each item in config.notLoggedInMenu
-                            include partials/nav.pug
-                    if state=="user"
-                        each item in config.nonAdminMenu
-                            include partials/nav.pug
-                    if state=="admin"
-                        each item in config.adminMenu
-                            include partials/nav.pug
+                div(id="navDiv")
+                    if(session.user)
+                        div(id="navImg")
+                            img(class='navbarImg',src=session.user.avatarurl)
+                    ul(id="navUl")
+                        if state=="logged out"
+                            each item in config.notLoggedInMenu
+                                include partials/nav.pug
+                        if state=="user"
+                            each item in config.nonAdminMenu
+                                include partials/nav.pug
+                        if state=="admin"
+                            each item in config.adminMenu
+                                include partials/nav.pug
         block content
         
         

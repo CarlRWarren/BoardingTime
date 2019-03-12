@@ -1,8 +1,6 @@
 let graphCanvas = document.getElementById('graphCanvas')
 let ctx = graphCanvas.getContext('2d');
 
-console.log(userList);
-
 //#region Helper Functions
 
 const clamp = (value, max, min) => {

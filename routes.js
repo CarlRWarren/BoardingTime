@@ -111,7 +111,7 @@ exports.index = (req, res) => {
       });
 
       res.render("index", {
-        title: "Home Page",
+        title: "Home",
         session: req.session,
         config,
         state: getStateFromSession(req.session),
@@ -199,7 +199,8 @@ exports.edit = (req, res) => {
     if (dbErr) return console.error(dbErr);
 
     res.render("signupEdit", {
-      title: "",
+      title: "Edit",
+      session: req.session,
       config,
       state: getStateFromSession(req.session),
       user,
@@ -219,7 +220,8 @@ exports.editUser = (req, res) => {
 
     if (users.some(u => (u.username === user.username && u.id != req.session.user.id))) {
       res.render("signupEdit", {
-        title: "",
+        title: "Edit",
+        session: req.session,
         config,
         state: getStateFromSession(req.session),
         failedMessage: "username already in use",
@@ -312,7 +314,7 @@ exports.delete = (req, res) => {
 
 exports.login = (req, res) => {
   res.render('login', {
-    title: "Login Page",
+    title: "Login",
     session: req.session,
     config,
     state: getStateFromSession(req.session)
@@ -334,16 +336,11 @@ exports.loginUser = (req, res) => {
 
 
         if (isMatch) {//if password matches database hash
-          req.session.user = {
-            isAuthenticated: true,
-            username: req.body.username,
-            id: curUser.id,
-            isAdmin: (curUser.role === "admin")
-          };
+          req.session.user = makeSessionUser(req, curUser);
           res.redirect('/');
         } else {
           res.render('login', {
-            title: "Login Page",
+            title: "Login",
             session: req.session,
             config,
             state: getStateFromSession(req.session),
@@ -354,7 +351,7 @@ exports.loginUser = (req, res) => {
       });
     } else {
       res.render('login', {
-        title: "Login Page",
+        title: "Login",
         session: req.session,
         config,
         state: getStateFromSession(req.session),
@@ -368,7 +365,7 @@ exports.loginUser = (req, res) => {
 
 exports.signup = (req, res) => {
   res.render('signupEdit', {
-    title: "Signup Page",
+    title: "Signup",
     session: req.session,
     config,
     state: getStateFromSession(req.session)
@@ -383,7 +380,7 @@ exports.signupUser = (req, res) => {
 
     if (users.some(u => u.username == req.body.username)) {
       res.render('signupEdit', {
-        title: "Signup Page",
+        title: "Signup",
         session: req.session,
         config,
         state: getStateFromSession(req.session),
@@ -399,18 +396,24 @@ exports.signupUser = (req, res) => {
         user.save((err, user) => {
           if (err) return console.error(err);
           console.log(user.username + " signed up");
-          req.session.user = {
-            isAuthenticated: true,
-            username: req.body.username,
-            id: user.id,
-            isAdmin: (user.role === "admin")
-          };
+          req.session.user = makeSessionUser(req, user);
           res.redirect("/");
         });
 
       });
     }
   });
+}
+
+makeSessionUser = (req, user) => {
+  console.log(user.avatarurl);
+  return {
+    isAuthenticated: true,
+    username: req.body.username,
+    id: user.id,
+    isAdmin: (user.role === "admin"),
+    avatarurl: user.avatarurl
+  };
 }
 
 exports.admin = (req, res) => {
